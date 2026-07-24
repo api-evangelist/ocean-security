@@ -1,0 +1,363 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  title: Ocean Security Metrics Settings API
+  version: 1.0.0
+  description: Ocean Security API for threat detection and security metrics
+servers:
+- url: https://api.ocean.security
+  description: Production server
+security:
+- ApiKeyAuth: []
+tags:
+- name: Settings
+  description: Manage tenant allow/deny list entries
+paths:
+  /api/v1/settings/allow_deny_entries:
+    post:
+      tags:
+      - Settings
+      summary: Create an allow/deny list entry
+      description: Adds a new entry (domain, IP, or email address) to the tenant's allow or deny list. The acting api key is recorded in the audit log.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/controllers_settings_allow_deny.CreateAllowDenyEntryRequest'
+        description: Allow/deny entry to create
+        required: true
+      responses:
+        '201':
+          description: Created entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_settings_allow_deny_AllowDenyEntry'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '409':
+          description: Conflict (entry already exists or collides with opposite list)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: createAllowDenyEntry
+    get:
+      tags:
+      - Settings
+      summary: List allow/deny list entries
+      description: Returns a paginated list of allow/deny entries for the caller's tenant, filtered by `list` (allow|deny).
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: 'Filter entries by list: allow or deny'
+        in: query
+        name: list
+        required: true
+        schema:
+          type: string
+      - description: 1-based page index (default 1)
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Page size (default 50, max 200)
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      - description: Substring match on identifier value
+        in: query
+        name: q
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated entries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_settings_allow_deny_ListAllowDenyEntriesResult'
+        '400':
+          description: Invalid query parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: listAllowDenyEntries
+  /api/v1/settings/allow_deny_entries/{id}:
+    delete:
+      tags:
+      - Settings
+      summary: Delete an allow/deny list entry
+      description: Removes a tenant allow/deny entry by id. The entry must belong to the caller's tenant.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Allow/deny entry id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deleted entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_settings_allow_deny_DeleteAllowDenyEntryResult'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Entry not found in caller's tenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: deleteAllowDenyEntry
+    patch:
+      tags:
+      - Settings
+      summary: Update an allow/deny list entry
+      description: Patches a tenant allow/deny entry. Only `list`, `verdict_scope`, and `comment` are mutable. Omitted fields are left unchanged.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Allow/deny entry id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/controllers_settings_allow_deny.PatchAllowDenyEntryRequest'
+        description: Fields to update
+        required: true
+      responses:
+        '200':
+          description: Updated entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_settings_allow_deny_AllowDenyEntry'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Entry not found in caller's tenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '409':
+          description: Conflict (new scope collides with another entry)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: updateAllowDenyEntry
+components:
+  schemas:
+    controllers_settings_allow_deny.EntryType:
+      enum:
+      - domain
+      - ip
+      - email_address
+      type: string
+      x-enum-varnames:
+      - EntryTypeDomain
+      - EntryTypeIP
+      - EntryTypeEmail
+    controllers_settings_allow_deny.DeleteAllowDenyEntryResult:
+      properties:
+        deleted:
+          type: boolean
+        deleted_at:
+          type: string
+        deleted_by:
+          type: string
+        id:
+          type: string
+      type: object
+    controllers_settings_allow_deny.PatchAllowDenyEntryRequest:
+      properties:
+        comment:
+          type: string
+        list:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListKind'
+        verdict_scope:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
+      type: object
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_ListAllowDenyEntriesResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListAllowDenyEntriesResult'
+        status:
+          type: integer
+      type: object
+    controllers_settings_allow_deny.CreateAllowDenyEntryRequest:
+      properties:
+        comment:
+          type: string
+        entry_type:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.EntryType'
+        list:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListKind'
+        value:
+          type: string
+        verdict_scope:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
+      required:
+      - entry_type
+      - list
+      - value
+      type: object
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_AllowDenyEntry:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
+        status:
+          type: integer
+      type: object
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_DeleteAllowDenyEntryResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.DeleteAllowDenyEntryResult'
+        status:
+          type: integer
+      type: object
+    types.ErrorResponse:
+      properties:
+        error:
+          type: string
+      type: object
+    controllers_settings_allow_deny.ListKind:
+      enum:
+      - allow
+      - deny
+      type: string
+      x-enum-varnames:
+      - ListAllow
+      - ListDeny
+    controllers_settings_allow_deny.AllowDenyEntry:
+      properties:
+        comment:
+          type: string
+        created_at:
+          type: string
+        created_by:
+          type: string
+        entry_type:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.EntryType'
+        id:
+          type: string
+        list:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListKind'
+        value:
+          type: string
+        verdict_scope:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
+      type: object
+    controllers_settings_allow_deny.ListAllowDenyEntriesResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
+          type: array
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
+      type: object
+    controllers_settings_allow_deny.Scope:
+      enum:
+      - global
+      - graymail
+      type: string
+      x-enum-varnames:
+      - ScopeGlobal
+      - ScopeGraymail
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: API key for authentication

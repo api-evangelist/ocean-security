@@ -1,0 +1,271 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  title: Ocean Security Metrics Threats API
+  version: 1.0.0
+  description: Ocean Security API for threat detection and security metrics
+servers:
+- url: https://api.ocean.security
+  description: Production server
+security:
+- ApiKeyAuth: []
+tags:
+- name: Threats
+  description: Operations for retrieving threat information
+paths:
+  /api/v1/threats/{id}:
+    get:
+      tags:
+      - Threats
+      summary: Get threat by ID
+      description: Retrieves the detailed information for a specific threat identified by its unique ID.
+      parameters:
+      - description: Unique identifier of the threat to retrieve
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_threats_ThreatItem'
+        '400':
+          description: Invalid request (e.g., missing ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Threat not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getThreatById
+  /api/v1/threats/by_internet_message_id/{id}:
+    get:
+      tags:
+      - Threats
+      summary: Get threats by Internet Message ID
+      description: Retrieves a list of threats sharing the same Internet Message ID.
+      parameters:
+      - description: Unique Internet Message ID to search for threats
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-array_controllers_threats_ThreatItem'
+        '400':
+          description: Invalid request (e.g., missing ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: No threats found for given ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getThreatsByInternetMessageId
+  /api/v1/threats:
+    get:
+      tags:
+      - Threats
+      summary: List recent threats
+      description: Returns a paginated list of recent threats, optionally filtered by the number of days to look back.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Number of minutes to look back (default 7 * 24 * 60)
+        in: query
+        name: minutes_ago
+        schema:
+          type: integer
+      - description: Page number for pagination (default 1)
+        in: query
+        name: page
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A paginated list of threats
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/common.PaginatedResponse'
+                - properties:
+                    results:
+                      $ref: '#/components/schemas/controllers_threats.threatsResult'
+                  type: object
+        '400':
+          description: Invalid input parameters (e.g., invalid days_ago)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: listRecentThreats
+components:
+  schemas:
+    ocean_api_common.BaseResponse-array_controllers_threats_ThreatItem:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/controllers_threats.ThreatItem'
+          type: array
+        status:
+          type: integer
+      type: object
+    controllers_threats.ThreatItem:
+      properties:
+        detection_time:
+          example: '1970-01-01T11:59:59.000Z'
+          format: date-time
+          type: string
+        id:
+          type: string
+        recipient_email:
+          type: string
+        recipient_name:
+          type: string
+        remediation_time:
+          example: '1970-01-01T11:59:59.000Z'
+          format: date-time
+          type: string
+        sender_email:
+          type: string
+        sender_name:
+          type: string
+        source:
+          type: string
+        subject:
+          type: string
+        threat_indicators:
+          items:
+            $ref: '#/components/schemas/controllers_threats.ThreatIndicator'
+          type: array
+        threat_type:
+          type: string
+        time:
+          example: '1970-01-01T11:59:59.000Z'
+          format: date-time
+          type: string
+      type: object
+    types.ErrorResponse:
+      properties:
+        error:
+          type: string
+      type: object
+    controllers_threats.threatsResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_threats.ThreatItem'
+          type: array
+      type: object
+    common.PaginatedResponse:
+      properties:
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/common.PaginationParams'
+          description: Pagination information
+        results:
+          description: The actual data
+        status:
+          description: HTTP status code
+          type: integer
+      type: object
+    controllers_threats.ThreatIndicator:
+      properties:
+        indicator_type:
+          type: string
+      type: object
+    common.PaginationParams:
+      properties:
+        page:
+          description: Current page number (1-based)
+          type: integer
+        page_size:
+          description: Number of items on this page (max 100)
+          type: integer
+        total:
+          description: Total number of items
+          type: integer
+      type: object
+    ocean_api_common.BaseResponse-controllers_threats_ThreatItem:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_threats.ThreatItem'
+        status:
+          type: integer
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: API key for authentication

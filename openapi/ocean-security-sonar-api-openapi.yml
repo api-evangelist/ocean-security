@@ -1,0 +1,452 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  title: Ocean Security Metrics Sonar API
+  version: 1.0.0
+  description: Ocean Security API for threat detection and security metrics
+servers:
+- url: https://api.ocean.security
+  description: Production server
+security:
+- ApiKeyAuth: []
+tags:
+- name: Sonar
+  description: Phishing report (SONAR) management and response analytics
+paths:
+  /api/v1/sonar/phishing-reports/aggs/verdicts:
+    get:
+      tags:
+      - Sonar
+      summary: Get aggregated total phishing reports by verdict
+      description: Returns the total count of phishing reports grouped by verdict
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_sonar_AggregatedTotalReportsResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getAggregatedVerdicts
+  /api/v1/sonar/phishing-reports/aggs/mttr:
+    get:
+      tags:
+      - Sonar
+      summary: Get Mean Time To Resolution for phishing reports
+      description: Returns the average time in seconds to analyze phishing reports
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_sonar_MTTRResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getPhishingReportsMttr
+  /api/v1/sonar/phishing-reports/{id}:
+    get:
+      tags:
+      - Sonar
+      summary: Get phishing report by ID
+      description: Retrieves the detailed information for a specific phishing report identified by its unique ID
+      parameters:
+      - description: Unique identifier of the phishing report to retrieve
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_sonar_PhishingReportDetails'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getPhishingReportById
+  /api/v1/sonar/phishing-reports/by_original_email_internet_message_id/{internet_message_id}:
+    get:
+      tags:
+      - Sonar
+      summary: Get phishing reports by original email internet message ID
+      description: Retrieves phishing reports for the given internet message ID of the original reported email (the email that was reported as phishing). Returns an array, since multiple users may report the same original email.
+      parameters:
+      - description: Internet Message ID of the original reported email
+        in: path
+        name: internet_message_id
+        required: true
+        schema:
+          type: string
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-array_controllers_sonar_PhishingReportItem'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getPhishingReportsByOriginalEmailInternetMessageId
+  /api/v1/sonar/phishing-reports/by_report_internet_message_id/{internet_message_id}:
+    get:
+      tags:
+      - Sonar
+      summary: Get phishing reports by report internet message ID
+      description: Retrieves phishing reports for the given internet message ID of the phishing report email itself (the message the reporting user sent).
+      parameters:
+      - description: Internet Message ID of the phishing report email
+        in: path
+        name: internet_message_id
+        required: true
+        schema:
+          type: string
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-array_controllers_sonar_PhishingReportItem'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getPhishingReportsByReportInternetMessageId
+  /api/v1/sonar/phishing-reports:
+    get:
+      tags:
+      - Sonar
+      summary: List phishing reports
+      description: Returns a paginated list of phishing reports from SONAR
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Number of minutes to look back (default 30 * 24 * 60 = 30 days)
+        in: query
+        name: minutes_ago
+        schema:
+          type: integer
+      - description: Page number for pagination (default 1)
+        in: query
+        name: page
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/common.PaginatedResponse'
+                - properties:
+                    results:
+                      $ref: '#/components/schemas/controllers_sonar.phishingReportsResult'
+                  type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: listPhishingReports
+components:
+  schemas:
+    controllers_sonar.MTTRResponse:
+      properties:
+        analysis_time:
+          type: integer
+      type: object
+    controllers_sonar.PhishingReportDetails:
+      properties:
+        bcc:
+          items:
+            type: string
+          type: array
+        cc:
+          items:
+            type: string
+          type: array
+        email_content_url:
+          type: string
+        id:
+          type: string
+        reasoning:
+          type: string
+        report_date:
+          type: string
+        reporter:
+          type: string
+        response_content_url:
+          type: string
+        sender:
+          type: string
+        subject:
+          type: string
+        to:
+          items:
+            type: string
+          type: array
+        verdict:
+          $ref: '#/components/schemas/verdict.Verdict'
+      type: object
+    controllers_sonar.AggregatedTotalReportsResponse:
+      properties:
+        total_reports:
+          additionalProperties:
+            type: integer
+          type: object
+      type: object
+    ocean_api_common.BaseResponse-controllers_sonar_PhishingReportDetails:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_sonar.PhishingReportDetails'
+        status:
+          type: integer
+      type: object
+    verdict.Verdict:
+      enum:
+      - unknown
+      - spam
+      - malicious
+      - safe
+      - allowed
+      - denied
+      - simulation
+      - graymail
+      - no_analysis
+      type: string
+      x-enum-varnames:
+      - Unknown
+      - Spam
+      - Malicious
+      - Safe
+      - Allowed
+      - Denied
+      - Simulation
+      - Graymail
+      - NoAnalysis
+    ocean_api_common.BaseResponse-controllers_sonar_AggregatedTotalReportsResponse:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_sonar.AggregatedTotalReportsResponse'
+        status:
+          type: integer
+      type: object
+    controllers_sonar.phishingReportsResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_sonar.PhishingReportItem'
+          type: array
+      type: object
+    types.ErrorResponse:
+      properties:
+        error:
+          type: string
+      type: object
+    ocean_api_common.BaseResponse-array_controllers_sonar_PhishingReportItem:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/controllers_sonar.PhishingReportItem'
+          type: array
+        status:
+          type: integer
+      type: object
+    controllers_sonar.PhishingReportItem:
+      properties:
+        id:
+          type: string
+        original_email_internet_message_id:
+          description: Internet message ID of the original email that was reported as phishing.
+          type: string
+        report_internet_message_id:
+          description: Internet message ID of the phishing report email itself (the message the reporting user sent).
+          type: string
+        reasoning:
+          type: string
+        report_date:
+          type: string
+        reporter:
+          type: string
+        sender:
+          type: string
+        subject:
+          type: string
+        verdict:
+          $ref: '#/components/schemas/verdict.Verdict'
+      type: object
+    ocean_api_common.BaseResponse-controllers_sonar_MTTRResponse:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_sonar.MTTRResponse'
+        status:
+          type: integer
+      type: object
+    common.PaginatedResponse:
+      properties:
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/common.PaginationParams'
+          description: Pagination information
+        results:
+          description: The actual data
+        status:
+          description: HTTP status code
+          type: integer
+      type: object
+    common.PaginationParams:
+      properties:
+        page:
+          description: Current page number (1-based)
+          type: integer
+        page_size:
+          description: Number of items on this page (max 100)
+          type: integer
+        total:
+          description: Total number of items
+          type: integer
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: API key for authentication
