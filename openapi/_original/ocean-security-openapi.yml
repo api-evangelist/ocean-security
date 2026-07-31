@@ -1,0 +1,1499 @@
+# generated: '2026-07-20'
+# method: searched
+# source: https://docs.ocean.security/api-reference/ (per-operation OpenAPI published on each docs page)
+openapi: 3.0.0
+info:
+  contact: {}
+  title: Ocean Security API
+  version: 1.0.0
+  description: Ocean Security API for threat detection and security metrics
+servers:
+- url: https://api.ocean.security
+  description: Production server
+security:
+- ApiKeyAuth: []
+tags:
+- name: Threats
+  description: Operations for retrieving threat information
+- name: Metrics
+  description: Security metrics and analytics endpoints
+- name: Settings
+  description: Manage tenant allow/deny list entries
+- name: Sonar
+  description: Phishing report (SONAR) management and response analytics
+paths:
+  /api/v1/metrics/hours_saved:
+    get:
+      tags:
+      - Metrics
+      summary: Get hours saved metric
+      description: Calculates the estimated hours saved based on prevented threats
+        within the specified time period.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Number of days to look back (default 30)
+        in: query
+        name: days_ago
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Estimated hours saved metric
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_metrics_hoursSavedResult'
+        '400':
+          description: Invalid input parameters (e.g., invalid days_ago)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getHoursSavedMetric
+  /api/v1/metrics/prevented_loss:
+    get:
+      tags:
+      - Metrics
+      summary: Get prevented financial loss metric (USD)
+      description: Calculates the total estimated financial loss prevented (in USD)
+        based on threats within the specified time period.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Number of days to look back (default 30)
+        in: query
+        name: days_ago
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Estimated financial loss prevented (USD)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_metrics_preventedLossResult'
+        '400':
+          description: Invalid input parameters (e.g., invalid days_ago)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getPreventedFinancialLoss
+  /api/v1/metrics/protected_inboxes:
+    get:
+      tags:
+      - Metrics
+      summary: Get protected inboxes count
+      description: Retrieves the count of unique protected inboxes that received mail
+        within the specified time period.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Count of protected inboxes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_metrics_protectedInboxesResult'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getProtectedInboxesCount
+  /api/v1/metrics/threats_over_time:
+    get:
+      tags:
+      - Metrics
+      summary: Get threats over time metric
+      description: Returns the count of threats grouped by day for the specified time
+        period.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Number of days to look back (default 7)
+        in: query
+        name: days_ago
+        schema:
+          type: integer
+      - description: Page number for pagination (default 1)
+        in: query
+        name: page
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A paginated list of daily threat counts
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/common.PaginatedResponse'
+                - properties:
+                    results:
+                      $ref: '#/components/schemas/controllers_metrics.threatsOverTimeResult'
+                  type: object
+        '400':
+          description: Invalid input parameters (e.g., invalid days_ago)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getThreatsOverTime
+  /api/v1/metrics/highlighted_threats:
+    get:
+      tags:
+      - Metrics
+      summary: Get top highlighted threats
+      description: Retrieves a list of the top 5 highlighted threats within the specified
+        time period.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Number of days to look back (default 7)
+        in: query
+        name: days_ago
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A list of top 5 highlighted threats
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_metrics_highlightedThreatsResult'
+        '400':
+          description: Invalid input parameters (e.g., invalid days_ago)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getTopHighlightedThreats
+  /api/v1/metrics/top_targeted_entities:
+    get:
+      tags:
+      - Metrics
+      summary: Get top targeted entities
+      description: Returns a list of the top 5 targeted entities (users or groups)
+        based on threat count within the specified time period.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Number of days to look back (default 7)
+        in: query
+        name: days_ago
+        schema:
+          type: integer
+      - description: Type of entity to query ('user' or 'group', default 'user')
+        in: query
+        name: type
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of top targeted entities and their threat counts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_metrics_topTargetedEntitiesResult'
+        '400':
+          description: Invalid input parameters (e.g., invalid days_ago, type, or
+            limit)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getTopTargetedEntities
+  /api/v1/metrics/top_threat_types:
+    get:
+      tags:
+      - Metrics
+      summary: Get top threat types
+      description: Returns a list of the top 5 threat types and their counts within
+        the specified time period.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Number of days to look back (default 7)
+        in: query
+        name: days_ago
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of top threat types and their counts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_metrics_topThreatTypesResult'
+        '400':
+          description: Invalid input parameters (e.g., invalid days_ago or limit)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getTopThreatTypes
+  /api/v1/settings/allow_deny_entries:
+    post:
+      tags:
+      - Settings
+      summary: Create an allow/deny list entry
+      description: Adds a new entry (domain, IP, or email address) to the tenant's
+        allow or deny list. The acting api key is recorded in the audit log.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/controllers_settings_allow_deny.CreateAllowDenyEntryRequest'
+        description: Allow/deny entry to create
+        required: true
+      responses:
+        '201':
+          description: Created entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_settings_allow_deny_AllowDenyEntry'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '409':
+          description: Conflict (entry already exists or collides with opposite list)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: createAllowDenyEntry
+    get:
+      tags:
+      - Settings
+      summary: List allow/deny list entries
+      description: Returns a paginated list of allow/deny entries for the caller's
+        tenant, filtered by `list` (allow|deny).
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: 'Filter entries by list: allow or deny'
+        in: query
+        name: list
+        required: true
+        schema:
+          type: string
+      - description: 1-based page index (default 1)
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Page size (default 50, max 200)
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      - description: Substring match on identifier value
+        in: query
+        name: q
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated entries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_settings_allow_deny_ListAllowDenyEntriesResult'
+        '400':
+          description: Invalid query parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: listAllowDenyEntries
+  /api/v1/settings/allow_deny_entries/{id}:
+    delete:
+      tags:
+      - Settings
+      summary: Delete an allow/deny list entry
+      description: Removes a tenant allow/deny entry by id. The entry must belong
+        to the caller's tenant.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Allow/deny entry id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deleted entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_settings_allow_deny_DeleteAllowDenyEntryResult'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Entry not found in caller's tenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: deleteAllowDenyEntry
+    patch:
+      tags:
+      - Settings
+      summary: Update an allow/deny list entry
+      description: Patches a tenant allow/deny entry. Only `list`, `verdict_scope`,
+        and `comment` are mutable. Omitted fields are left unchanged.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Allow/deny entry id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/controllers_settings_allow_deny.PatchAllowDenyEntryRequest'
+        description: Fields to update
+        required: true
+      responses:
+        '200':
+          description: Updated entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_settings_allow_deny_AllowDenyEntry'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Entry not found in caller's tenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '409':
+          description: Conflict (new scope collides with another entry)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: updateAllowDenyEntry
+  /api/v1/sonar/phishing-reports/aggs/verdicts:
+    get:
+      tags:
+      - Sonar
+      summary: Get aggregated total phishing reports by verdict
+      description: Returns the total count of phishing reports grouped by verdict
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_sonar_AggregatedTotalReportsResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getAggregatedVerdicts
+  /api/v1/sonar/phishing-reports/aggs/mttr:
+    get:
+      tags:
+      - Sonar
+      summary: Get Mean Time To Resolution for phishing reports
+      description: Returns the average time in seconds to analyze phishing reports
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_sonar_MTTRResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getPhishingReportsMttr
+  /api/v1/sonar/phishing-reports/{id}:
+    get:
+      tags:
+      - Sonar
+      summary: Get phishing report by ID
+      description: Retrieves the detailed information for a specific phishing report
+        identified by its unique ID
+      parameters:
+      - description: Unique identifier of the phishing report to retrieve
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_sonar_PhishingReportDetails'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getPhishingReportById
+  /api/v1/sonar/phishing-reports/by_original_email_internet_message_id/{internet_message_id}:
+    get:
+      tags:
+      - Sonar
+      summary: Get phishing reports by original email internet message ID
+      description: Retrieves phishing reports for the given internet message ID of
+        the original reported email (the email that was reported as phishing). Returns
+        an array, since multiple users may report the same original email.
+      parameters:
+      - description: Internet Message ID of the original reported email
+        in: path
+        name: internet_message_id
+        required: true
+        schema:
+          type: string
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-array_controllers_sonar_PhishingReportItem'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getPhishingReportsByOriginalEmailInternetMessageId
+  /api/v1/sonar/phishing-reports/by_report_internet_message_id/{internet_message_id}:
+    get:
+      tags:
+      - Sonar
+      summary: Get phishing reports by report internet message ID
+      description: Retrieves phishing reports for the given internet message ID of
+        the phishing report email itself (the message the reporting user sent).
+      parameters:
+      - description: Internet Message ID of the phishing report email
+        in: path
+        name: internet_message_id
+        required: true
+        schema:
+          type: string
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-array_controllers_sonar_PhishingReportItem'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getPhishingReportsByReportInternetMessageId
+  /api/v1/sonar/phishing-reports:
+    get:
+      tags:
+      - Sonar
+      summary: List phishing reports
+      description: Returns a paginated list of phishing reports from SONAR
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Number of minutes to look back (default 30 * 24 * 60 = 30 days)
+        in: query
+        name: minutes_ago
+        schema:
+          type: integer
+      - description: Page number for pagination (default 1)
+        in: query
+        name: page
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/common.PaginatedResponse'
+                - properties:
+                    results:
+                      $ref: '#/components/schemas/controllers_sonar.phishingReportsResult'
+                  type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: listPhishingReports
+  /api/v1/threats/{id}:
+    get:
+      tags:
+      - Threats
+      summary: Get threat by ID
+      description: Retrieves the detailed information for a specific threat identified
+        by its unique ID.
+      parameters:
+      - description: Unique identifier of the threat to retrieve
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-controllers_threats_ThreatItem'
+        '400':
+          description: Invalid request (e.g., missing ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: Threat not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getThreatById
+  /api/v1/threats/by_internet_message_id/{id}:
+    get:
+      tags:
+      - Threats
+      summary: Get threats by Internet Message ID
+      description: Retrieves a list of threats sharing the same Internet Message ID.
+      parameters:
+      - description: Unique Internet Message ID to search for threats
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ocean_api_common.BaseResponse-array_controllers_threats_ThreatItem'
+        '400':
+          description: Invalid request (e.g., missing ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '404':
+          description: No threats found for given ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: getThreatsByInternetMessageId
+  /api/v1/threats:
+    get:
+      tags:
+      - Threats
+      summary: List recent threats
+      description: Returns a paginated list of recent threats, optionally filtered
+        by the number of days to look back.
+      parameters:
+      - description: Authentication API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      - description: Number of minutes to look back (default 7 * 24 * 60)
+        in: query
+        name: minutes_ago
+        schema:
+          type: integer
+      - description: Page number for pagination (default 1)
+        in: query
+        name: page
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A paginated list of threats
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/common.PaginatedResponse'
+                - properties:
+                    results:
+                      $ref: '#/components/schemas/controllers_threats.threatsResult'
+                  type: object
+        '400':
+          description: Invalid input parameters (e.g., invalid days_ago)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or missing API Key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/types.ErrorResponse'
+      operationId: listRecentThreats
+components:
+  schemas:
+    ocean_api_common.BaseResponse-controllers_metrics_hoursSavedResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_metrics.hoursSavedResult'
+        status:
+          type: integer
+      type: object
+    types.ErrorResponse:
+      properties:
+        error:
+          type: string
+      type: object
+    controllers_metrics.hoursSavedResult:
+      properties:
+        hours_saved:
+          type: integer
+      type: object
+    ocean_api_common.BaseResponse-controllers_metrics_preventedLossResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_metrics.preventedLossResult'
+        status:
+          type: integer
+      type: object
+    controllers_metrics.preventedLossResult:
+      properties:
+        currency:
+          type: string
+        prevented_loss:
+          type: integer
+      type: object
+    ocean_api_common.BaseResponse-controllers_metrics_protectedInboxesResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_metrics.protectedInboxesResult'
+        status:
+          type: integer
+      type: object
+    controllers_metrics.protectedInboxesResult:
+      properties:
+        protected_inboxes:
+          type: integer
+      type: object
+    common.PaginatedResponse:
+      properties:
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/common.PaginationParams'
+          description: Pagination information
+        results:
+          description: The actual data
+        status:
+          description: HTTP status code
+          type: integer
+      type: object
+    controllers_metrics.threatsOverTimeResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_metrics.ThreatsOverTimeRow'
+          type: array
+      type: object
+    common.PaginationParams:
+      properties:
+        page:
+          description: Current page number (1-based)
+          type: integer
+        page_size:
+          description: Number of items on this page (max 100)
+          type: integer
+        total:
+          description: Total number of items
+          type: integer
+      type: object
+    controllers_metrics.ThreatsOverTimeRow:
+      properties:
+        count_threats:
+          type: number
+        date:
+          example: '1970-01-01T00:00:00.000Z'
+          format: date
+          type: string
+      type: object
+    ocean_api_common.BaseResponse-controllers_metrics_highlightedThreatsResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_metrics.highlightedThreatsResult'
+        status:
+          type: integer
+      type: object
+    controllers_metrics.highlightedThreatsResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ocean_api_controllers_threats.ThreatItem'
+          type: array
+      type: object
+    ocean_api_controllers_threats.ThreatItem:
+      properties:
+        detection_time:
+          example: '1970-01-01T11:59:59.000Z'
+          format: date-time
+          type: string
+        id:
+          type: string
+        recipient_email:
+          type: string
+        recipient_name:
+          type: string
+        remediation_time:
+          example: '1970-01-01T11:59:59.000Z'
+          format: date-time
+          type: string
+        sender_email:
+          type: string
+        sender_name:
+          type: string
+        source:
+          type: string
+        subject:
+          type: string
+        threat_indicators:
+          items:
+            $ref: '#/components/schemas/ocean_api_controllers_threats.ThreatIndicator'
+          type: array
+        threat_type:
+          type: string
+        time:
+          example: '1970-01-01T11:59:59.000Z'
+          format: date-time
+          type: string
+      type: object
+    ocean_api_controllers_threats.ThreatIndicator:
+      properties:
+        indicator_type:
+          type: string
+      type: object
+    ocean_api_common.BaseResponse-controllers_metrics_topTargetedEntitiesResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_metrics.topTargetedEntitiesResult'
+        status:
+          type: integer
+      type: object
+    controllers_metrics.topTargetedEntitiesResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_metrics.TopTargetedEntityRow'
+          type: array
+      type: object
+    controllers_metrics.TopTargetedEntityRow:
+      properties:
+        count_threats:
+          type: number
+        full_name:
+          type: string
+        job_title:
+          type: string
+      type: object
+    ocean_api_common.BaseResponse-controllers_metrics_topThreatTypesResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_metrics.topThreatTypesResult'
+        status:
+          type: integer
+      type: object
+    controllers_metrics.topThreatTypesResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_metrics.TopThreatTypeRow'
+          type: array
+      type: object
+    controllers_metrics.TopThreatTypeRow:
+      properties:
+        count_threats:
+          type: number
+        type:
+          type: string
+      type: object
+    controllers_settings_allow_deny.CreateAllowDenyEntryRequest:
+      properties:
+        comment:
+          type: string
+        entry_type:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.EntryType'
+        list:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListKind'
+        value:
+          type: string
+        verdict_scope:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
+      required:
+      - entry_type
+      - list
+      - value
+      type: object
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_AllowDenyEntry:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
+        status:
+          type: integer
+      type: object
+    controllers_settings_allow_deny.EntryType:
+      enum:
+      - domain
+      - ip
+      - email_address
+      type: string
+      x-enum-varnames:
+      - EntryTypeDomain
+      - EntryTypeIP
+      - EntryTypeEmail
+    controllers_settings_allow_deny.ListKind:
+      enum:
+      - allow
+      - deny
+      type: string
+      x-enum-varnames:
+      - ListAllow
+      - ListDeny
+    controllers_settings_allow_deny.Scope:
+      enum:
+      - global
+      - graymail
+      type: string
+      x-enum-varnames:
+      - ScopeGlobal
+      - ScopeGraymail
+    controllers_settings_allow_deny.AllowDenyEntry:
+      properties:
+        comment:
+          type: string
+        created_at:
+          type: string
+        created_by:
+          type: string
+        entry_type:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.EntryType'
+        id:
+          type: string
+        list:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListKind'
+        value:
+          type: string
+        verdict_scope:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
+      type: object
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_DeleteAllowDenyEntryResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.DeleteAllowDenyEntryResult'
+        status:
+          type: integer
+      type: object
+    controllers_settings_allow_deny.DeleteAllowDenyEntryResult:
+      properties:
+        deleted:
+          type: boolean
+        deleted_at:
+          type: string
+        deleted_by:
+          type: string
+        id:
+          type: string
+      type: object
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_ListAllowDenyEntriesResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListAllowDenyEntriesResult'
+        status:
+          type: integer
+      type: object
+    controllers_settings_allow_deny.ListAllowDenyEntriesResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
+          type: array
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
+      type: object
+    controllers_settings_allow_deny.PatchAllowDenyEntryRequest:
+      properties:
+        comment:
+          type: string
+        list:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListKind'
+        verdict_scope:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
+      type: object
+    ocean_api_common.BaseResponse-controllers_sonar_AggregatedTotalReportsResponse:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_sonar.AggregatedTotalReportsResponse'
+        status:
+          type: integer
+      type: object
+    controllers_sonar.AggregatedTotalReportsResponse:
+      properties:
+        total_reports:
+          additionalProperties:
+            type: integer
+          type: object
+      type: object
+    ocean_api_common.BaseResponse-controllers_sonar_MTTRResponse:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_sonar.MTTRResponse'
+        status:
+          type: integer
+      type: object
+    controllers_sonar.MTTRResponse:
+      properties:
+        analysis_time:
+          type: integer
+      type: object
+    ocean_api_common.BaseResponse-controllers_sonar_PhishingReportDetails:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_sonar.PhishingReportDetails'
+        status:
+          type: integer
+      type: object
+    controllers_sonar.PhishingReportDetails:
+      properties:
+        bcc:
+          items:
+            type: string
+          type: array
+        cc:
+          items:
+            type: string
+          type: array
+        email_content_url:
+          type: string
+        id:
+          type: string
+        reasoning:
+          type: string
+        report_date:
+          type: string
+        reporter:
+          type: string
+        response_content_url:
+          type: string
+        sender:
+          type: string
+        subject:
+          type: string
+        to:
+          items:
+            type: string
+          type: array
+        verdict:
+          $ref: '#/components/schemas/verdict.Verdict'
+      type: object
+    verdict.Verdict:
+      enum:
+      - unknown
+      - spam
+      - malicious
+      - safe
+      - allowed
+      - denied
+      - simulation
+      - graymail
+      - no_analysis
+      type: string
+      x-enum-varnames:
+      - Unknown
+      - Spam
+      - Malicious
+      - Safe
+      - Allowed
+      - Denied
+      - Simulation
+      - Graymail
+      - NoAnalysis
+    ocean_api_common.BaseResponse-array_controllers_sonar_PhishingReportItem:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/controllers_sonar.PhishingReportItem'
+          type: array
+        status:
+          type: integer
+      type: object
+    controllers_sonar.PhishingReportItem:
+      properties:
+        id:
+          type: string
+        original_email_internet_message_id:
+          description: Internet message ID of the original email that was reported
+            as phishing.
+          type: string
+        report_internet_message_id:
+          description: Internet message ID of the phishing report email itself (the
+            message the reporting user sent).
+          type: string
+        reasoning:
+          type: string
+        report_date:
+          type: string
+        reporter:
+          type: string
+        sender:
+          type: string
+        subject:
+          type: string
+        verdict:
+          $ref: '#/components/schemas/verdict.Verdict'
+      type: object
+    controllers_sonar.phishingReportsResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_sonar.PhishingReportItem'
+          type: array
+      type: object
+    ocean_api_common.BaseResponse-controllers_threats_ThreatItem:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_threats.ThreatItem'
+        status:
+          type: integer
+      type: object
+    controllers_threats.ThreatItem:
+      properties:
+        detection_time:
+          example: '1970-01-01T11:59:59.000Z'
+          format: date-time
+          type: string
+        id:
+          type: string
+        recipient_email:
+          type: string
+        recipient_name:
+          type: string
+        remediation_time:
+          example: '1970-01-01T11:59:59.000Z'
+          format: date-time
+          type: string
+        sender_email:
+          type: string
+        sender_name:
+          type: string
+        source:
+          type: string
+        subject:
+          type: string
+        threat_indicators:
+          items:
+            $ref: '#/components/schemas/controllers_threats.ThreatIndicator'
+          type: array
+        threat_type:
+          type: string
+        time:
+          example: '1970-01-01T11:59:59.000Z'
+          format: date-time
+          type: string
+      type: object
+    controllers_threats.ThreatIndicator:
+      properties:
+        indicator_type:
+          type: string
+      type: object
+    ocean_api_common.BaseResponse-array_controllers_threats_ThreatItem:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/controllers_threats.ThreatItem'
+          type: array
+        status:
+          type: integer
+      type: object
+    controllers_threats.threatsResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_threats.ThreatItem'
+          type: array
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: API key for authentication

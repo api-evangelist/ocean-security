@@ -1,0 +1,16 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/ocean-security-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-Api-Key
+  description: API key for authentication
+  sources:
+  - openapi/ocean-security-openapi.yml

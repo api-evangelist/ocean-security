@@ -1,0 +1,20 @@
+{
+  "provider": "ocean-security",
+  "sources": [
+    "ocean-security-metrics-api-openapi.yml",
+    "ocean-security-settings-api-openapi.yml",
+    "ocean-security-sonar-api-openapi.yml",
+    "ocean-security-threats-api-openapi.yml"
+  ],
+  "outputs": [
+    "ocean-security-metrics-api-openapi.yml",
+    "ocean-security-settings-api-openapi.yml",
+    "ocean-security-sonar-api-openapi.yml",
+    "ocean-security-threats-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

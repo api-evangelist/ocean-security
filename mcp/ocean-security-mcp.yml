@@ -1,0 +1,73 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: openapi/ocean-security-openapi.yml
+note: >-
+  No official hosted/remote MCP server was found for Ocean Security. This is a candidate tool
+  surface derived one-to-one from the published OpenAPI operations, provided as a starting point
+  for exposing the Ocean Security API to AI agents. Auth is a static X-Api-Key header.
+server:
+  name: ocean-security
+  transport: http
+  url: null
+tools:
+- name: list_recent_threats
+  description: List recent detected email threats, optionally filtered by look-back window.
+  source_operation: openapi/ocean-security-openapi.yml#listRecentThreats
+- name: get_threat_by_id
+  description: Retrieve a single threat by its unique ID.
+  source_operation: openapi/ocean-security-openapi.yml#getThreatById
+- name: get_threats_by_internet_message_id
+  description: Retrieve threats sharing the same Internet Message ID.
+  source_operation: openapi/ocean-security-openapi.yml#getThreatsByInternetMessageId
+- name: list_phishing_reports
+  description: List SONAR phishing reports.
+  source_operation: openapi/ocean-security-openapi.yml#listPhishingReports
+- name: get_phishing_report_by_id
+  description: Retrieve a single phishing report by ID.
+  source_operation: openapi/ocean-security-openapi.yml#getPhishingReportById
+- name: get_phishing_reports_by_original_email_internet_message_id
+  description: Retrieve phishing reports by the original reported email's Internet Message ID.
+  source_operation: openapi/ocean-security-openapi.yml#getPhishingReportsByOriginalEmailInternetMessageId
+- name: get_phishing_reports_by_report_internet_message_id
+  description: Retrieve phishing reports by the report email's Internet Message ID.
+  source_operation: openapi/ocean-security-openapi.yml#getPhishingReportsByReportInternetMessageId
+- name: get_aggregated_verdicts
+  description: Get total phishing reports grouped by verdict.
+  source_operation: openapi/ocean-security-openapi.yml#getAggregatedVerdicts
+- name: get_phishing_reports_mttr
+  description: Get mean time to resolution (seconds) for phishing reports.
+  source_operation: openapi/ocean-security-openapi.yml#getPhishingReportsMttr
+- name: list_allow_deny_entries
+  description: List tenant allow/deny list entries filtered by list (allow|deny).
+  source_operation: openapi/ocean-security-openapi.yml#listAllowDenyEntries
+- name: create_allow_deny_entry
+  description: Add a domain, IP, or email address to the tenant allow or deny list.
+  source_operation: openapi/ocean-security-openapi.yml#createAllowDenyEntry
+- name: update_allow_deny_entry
+  description: Patch an allow/deny entry (list, verdict_scope, comment).
+  source_operation: openapi/ocean-security-openapi.yml#updateAllowDenyEntry
+- name: delete_allow_deny_entry
+  description: Remove an allow/deny entry by ID.
+  source_operation: openapi/ocean-security-openapi.yml#deleteAllowDenyEntry
+- name: get_hours_saved_metric
+  description: Estimated analyst hours saved from prevented threats.
+  source_operation: openapi/ocean-security-openapi.yml#getHoursSavedMetric
+- name: get_prevented_financial_loss
+  description: Estimated financial loss prevented (USD).
+  source_operation: openapi/ocean-security-openapi.yml#getPreventedFinancialLoss
+- name: get_protected_inboxes_count
+  description: Count of unique protected inboxes that received mail.
+  source_operation: openapi/ocean-security-openapi.yml#getProtectedInboxesCount
+- name: get_threats_over_time
+  description: Count of threats grouped by day over a period.
+  source_operation: openapi/ocean-security-openapi.yml#getThreatsOverTime
+- name: get_top_highlighted_threats
+  description: Top 5 highlighted threats in the period.
+  source_operation: openapi/ocean-security-openapi.yml#getTopHighlightedThreats
+- name: get_top_targeted_entities
+  description: Top 5 targeted users or groups by threat count.
+  source_operation: openapi/ocean-security-openapi.yml#getTopTargetedEntities
+- name: get_top_threat_types
+  description: Top 5 threat types and their counts.
+  source_operation: openapi/ocean-security-openapi.yml#getTopThreatTypes

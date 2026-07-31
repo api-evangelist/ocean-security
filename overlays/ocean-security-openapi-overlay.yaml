@@ -1,0 +1,21 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Ocean Security API
+  version: 1.0.0
+extends: openapi/ocean-security-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-20'
+    x-apievangelist-provider: ocean-security
+    x-apievangelist-auth: apiKey (X-Api-Key header)
+    x-apievangelist-conventions: conventions/ocean-security-conventions.yml
+    x-apievangelist-errors: errors/ocean-security-problem-types.yml
+- target: $.tags
+  update: []
+- target: $
+  update:
+    x-apievangelist-notes: >-
+      Operation summaries, descriptions, tags, and operationIds were assembled from the
+      per-operation OpenAPI documents published on each docs.ocean.security API reference page.
+      This overlay records API Evangelist enrichment metadata without mutating the harvested spec.

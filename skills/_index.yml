@@ -1,0 +1,20 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/ocean-security-openapi.yml
+skills:
+- file: ocean-security-triage-recent-threats.md
+  name: Triage recent email threats
+  api: openapi/ocean-security-openapi.yml
+  operations: [listRecentThreats, getThreatById, getThreatsByInternetMessageId]
+- file: ocean-security-manage-allow-deny-list.md
+  name: Manage the tenant allow/deny list
+  api: openapi/ocean-security-openapi.yml
+  operations: [listAllowDenyEntries, createAllowDenyEntry, updateAllowDenyEntry, deleteAllowDenyEntry]
+- file: ocean-security-investigate-phishing-reports.md
+  name: Investigate SONAR phishing reports
+  api: openapi/ocean-security-openapi.yml
+  operations: [listPhishingReports, getPhishingReportById, getPhishingReportsByOriginalEmailInternetMessageId, getAggregatedVerdicts, getPhishingReportsMttr]
+- file: ocean-security-report-security-roi.md
+  name: Report security ROI and posture metrics
+  api: openapi/ocean-security-openapi.yml
+  operations: [getHoursSavedMetric, getPreventedFinancialLoss, getProtectedInboxesCount, getThreatsOverTime, getTopThreatTypes, getTopTargetedEntities, getTopHighlightedThreats]

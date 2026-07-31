@@ -1,0 +1,234 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/ocean-security-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 20
+  by_action_class:
+    connected: 17
+    acting: 3
+  by_consequence:
+    read: 17
+    write: 3
+  human_in_the_loop_required: 0
+operations:
+- path: /api/v1/metrics/hours_saved
+  method: get
+  operationId: getHoursSavedMetric
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/metrics/prevented_loss
+  method: get
+  operationId: getPreventedFinancialLoss
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/metrics/protected_inboxes
+  method: get
+  operationId: getProtectedInboxesCount
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/metrics/threats_over_time
+  method: get
+  operationId: getThreatsOverTime
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/metrics/highlighted_threats
+  method: get
+  operationId: getTopHighlightedThreats
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/metrics/top_targeted_entities
+  method: get
+  operationId: getTopTargetedEntities
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/metrics/top_threat_types
+  method: get
+  operationId: getTopThreatTypes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/settings/allow_deny_entries
+  method: post
+  operationId: createAllowDenyEntry
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/settings/allow_deny_entries
+  method: get
+  operationId: listAllowDenyEntries
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/settings/allow_deny_entries/{id}
+  method: delete
+  operationId: deleteAllowDenyEntry
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/settings/allow_deny_entries/{id}
+  method: patch
+  operationId: updateAllowDenyEntry
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/sonar/phishing-reports/aggs/verdicts
+  method: get
+  operationId: getAggregatedVerdicts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/sonar/phishing-reports/aggs/mttr
+  method: get
+  operationId: getPhishingReportsMttr
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/sonar/phishing-reports/{id}
+  method: get
+  operationId: getPhishingReportById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/sonar/phishing-reports/by_original_email_internet_message_id/{internet_message_id}
+  method: get
+  operationId: getPhishingReportsByOriginalEmailInternetMessageId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/sonar/phishing-reports/by_report_internet_message_id/{internet_message_id}
+  method: get
+  operationId: getPhishingReportsByReportInternetMessageId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/sonar/phishing-reports
+  method: get
+  operationId: listPhishingReports
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/threats/{id}
+  method: get
+  operationId: getThreatById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/threats/by_internet_message_id/{id}
+  method: get
+  operationId: getThreatsByInternetMessageId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/threats
+  method: get
+  operationId: listRecentThreats
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none

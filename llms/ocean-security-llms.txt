@@ -1,0 +1,27 @@
+# generated: 2026-07-20 | method: searched | source: https://docs.ocean.security/llms.txt
+# Ocean Docs
+
+## Docs
+
+- [Introduction](https://docs.ocean.security/api-reference/introduction.md): Ocean Security API for threat detection and security metrics
+- [Get hours saved metric](https://docs.ocean.security/api-reference/metrics/get-hours-saved-metric.md): Calculates the estimated hours saved based on prevented threats within the specified time period.
+- [Get prevented financial loss metric (USD)](https://docs.ocean.security/api-reference/metrics/get-prevented-financial-loss-metric-usd.md): Calculates the total estimated financial loss prevented (in USD) based on threats within the specified time period.
+- [Get protected inboxes count](https://docs.ocean.security/api-reference/metrics/get-protected-inboxes-count.md): Retrieves the count of unique protected inboxes that received mail within the specified time period.
+- [Get threats over time metric](https://docs.ocean.security/api-reference/metrics/get-threats-over-time-metric.md): Returns the count of threats grouped by day for the specified time period.
+- [Get top highlighted threats](https://docs.ocean.security/api-reference/metrics/get-top-highlighted-threats.md): Retrieves a list of the top 5 highlighted threats within the specified time period.
+- [Get top targeted entities](https://docs.ocean.security/api-reference/metrics/get-top-targeted-entities.md): Returns a list of the top 5 targeted entities (users or groups) based on threat count within the specified time period.
+- [Get top threat types](https://docs.ocean.security/api-reference/metrics/get-top-threat-types.md): Returns a list of the top 5 threat types and their counts within the specified time period.
+- [Create an allow/deny list entry](https://docs.ocean.security/api-reference/settings/create-allow-deny-entry.md): Adds a new entry (domain, IP, or email address) to the tenant's allow or deny list. The acting api key is recorded in the audit log.
+- [Delete an allow/deny list entry](https://docs.ocean.security/api-reference/settings/delete-allow-deny-entry.md): Removes a tenant allow/deny entry by id. The entry must belong to the caller's tenant.
+- [List allow/deny list entries](https://docs.ocean.security/api-reference/settings/list-allow-deny-entries.md): Returns a paginated list of allow/deny entries for the caller's tenant, filtered by `list` (allow|deny).
+- [Update an allow/deny list entry](https://docs.ocean.security/api-reference/settings/update-allow-deny-entry.md): Patches a tenant allow/deny entry. Only `list`, `verdict_scope`, and `comment` are mutable. Omitted fields are left unchanged.
+- [Get aggregated total phishing reports by verdict](https://docs.ocean.security/api-reference/sonar/get-aggregated-verdicts.md): Returns the total count of phishing reports grouped by verdict
+- [Get Mean Time To Resolution for phishing reports](https://docs.ocean.security/api-reference/sonar/get-mttr.md): Returns the average time in seconds to analyze phishing reports
+- [Get phishing report by ID](https://docs.ocean.security/api-reference/sonar/get-phishing-report-by-id.md): Retrieves the detailed information for a specific phishing report identified by its unique ID
+- [Get phishing reports by original email internet message ID](https://docs.ocean.security/api-reference/sonar/get-phishing-reports-by-original-email-internet-message-id.md): Retrieves phishing reports for the given internet message ID of the original reported email (the email that was reported as phishing). Returns an array, since multiple users may report the same original email.
+- [Get phishing reports by report internet message ID](https://docs.ocean.security/api-reference/sonar/get-phishing-reports-by-report-internet-message-id.md): Retrieves phishing reports for the given internet message ID of the phishing report email itself (the message the reporting user sent).
+- [List phishing reports](https://docs.ocean.security/api-reference/sonar/list-phishing-reports.md): Returns a paginated list of phishing reports from SONAR
+- [Get threat by ID](https://docs.ocean.security/api-reference/threats/get-threat-by-id.md): Retrieves the detailed information for a specific threat identified by its unique ID.
+- [Get threats by Internet Message ID](https://docs.ocean.security/api-reference/threats/get-threats-by-internet-message-id.md): Retrieves a list of threats sharing the same Internet Message ID.
+- [List recent threats](https://docs.ocean.security/api-reference/threats/list-recent-threats.md): Returns a paginated list of recent threats, optionally filtered by the number of days to look back.
+- [Ocean Docs](https://docs.ocean.security/index.md)

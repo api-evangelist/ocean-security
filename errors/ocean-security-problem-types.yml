@@ -1,0 +1,43 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/ocean-security-openapi.yml
+format: simple-json
+envelope:
+  shape: '{"error": "<message>"}'
+  content_type: application/json
+  note: >-
+    Ocean Security returns a flat JSON error object (types.ErrorResponse) with a single "error"
+    string field. This is not RFC 9457 application/problem+json. Successful responses use a
+    {"status": <int>, "results": {...}} envelope.
+problems:
+- status: 400
+  title: Bad Request
+  detail: Invalid parameters (e.g. invalid days_ago / minutes_ago or malformed query).
+  source_operations:
+  - listRecentThreats
+  - getHoursSavedMetric
+  - listAllowDenyEntries
+  - createAllowDenyEntry
+  - listPhishingReports
+- status: 401
+  title: Unauthorized
+  detail: Invalid or missing API key (X-Api-Key header).
+  example: '{"error": "Invalid API key"}'
+  source_operations: [all operations]
+- status: 404
+  title: Not Found
+  detail: The requested resource does not exist (e.g. unknown threat, phishing report, or entry id).
+  source_operations:
+  - getThreatById
+  - getPhishingReportById
+  - deleteAllowDenyEntry
+  - updateAllowDenyEntry
+- status: 409
+  title: Conflict
+  detail: >-
+    Entry already exists or collides with the opposite list when creating an allow/deny entry.
+  source_operations: [createAllowDenyEntry]
+- status: 500
+  title: Internal Server Error
+  detail: Unexpected server error.
+  source_operations: [all operations]

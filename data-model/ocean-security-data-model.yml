@@ -1,0 +1,69 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/ocean-security-openapi.yml
+entities:
+- name: Threat
+  schema: controllers_threats.ThreatItem
+  id_field: id
+  key_fields:
+  - id
+  - subject
+  - sender_email
+  - sender_name
+  - recipient_email
+  - recipient_name
+  - threat_type
+  - source
+  - detection_time
+  - remediation_time
+  - threat_indicators
+- name: ThreatIndicator
+  schema: controllers_threats.ThreatIndicator
+  key_fields: [indicator_type]
+- name: PhishingReport
+  schema: controllers_sonar.PhishingReportItem
+  id_field: id
+  key_fields:
+  - id
+  - subject
+  - sender
+  - reporter
+  - reasoning
+  - verdict
+  - report_date
+  - original_email_internet_message_id
+  - report_internet_message_id
+- name: AllowDenyEntry
+  schema: controllers_settings_allow_deny.AllowDenyEntry
+  id_field: id
+  key_fields:
+  - id
+  - value
+  - entry_type
+  - list
+  - verdict_scope
+  - comment
+  - created_at
+  - created_by
+enumerations:
+  Verdict: [unknown, spam, malicious, safe, allowed, denied, simulation, graymail, no_analysis]
+  EntryType: [domain, ip, email_address]
+  ListKind: [allow, deny]
+  Scope: [global, graymail]
+relationships:
+- from: Threat
+  to: ThreatIndicator
+  kind: has_many
+  via: threat_indicators
+- from: PhishingReport
+  to: Threat
+  kind: references
+  via: original_email_internet_message_id
+  note: >-
+    Phishing reports and threats are correlated by Internet Message ID rather than a hard foreign
+    key; getThreatsByInternetMessageId and getPhishingReportsByOriginalEmailInternetMessageId walk
+    this relationship.
+notes: >-
+  Ocean models three top-level resources — Threats (detected email attacks), PhishingReports
+  (SONAR user-reported phishing), and AllowDenyEntries (tenant policy) — plus read-only Metrics
+  aggregates. Emails are correlated across resources by Internet Message ID.

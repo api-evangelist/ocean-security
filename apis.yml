@@ -1,8 +1,17 @@
 aid: ocean-security
 name: Ocean Security
-description: Ocean Security is a company surfaced as a portfolio company of lightspeed-venture-partners
-  and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the
-  enrichment pipeline.
+description: >-
+  Ocean Security (Ocean) is an AI-native, agentic email security platform that stops targeted,
+  AI-powered email attacks that surface-level detection tools miss. At its core is Ray, an
+  autonomous investigation engine that reviews every inbound email in real time — checking the
+  sender, content, links, technical infrastructure, and business context to decide whether a
+  message can be trusted — enabling enterprises to stop phishing, business email compromise (BEC),
+  impersonation, and financial fraud. The platform pairs deep email investigation with autonomous
+  SOC triage and real-time employee inbox guidance. Ocean's REST API gives security teams
+  programmatic access to detected threats, phishing reports (SONAR), allow/deny list settings, and
+  ROI/security metrics such as hours saved and financial loss prevented. Founded in Israel and
+  backed by Lightspeed Venture Partners, Ocean protects hundreds of thousands of mailboxes across
+  Global Fortune 500 organizations.
 url: https://raw.githubusercontent.com/api-evangelist/ocean-security/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,14 +19,164 @@ x-backed-by:
 - lightspeed-venture-partners
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
+image: https://ocean.security/favicon.ico
 tags:
 - Company
-apis: []
+- Security
+- Email Security
+- Cybersecurity
+- Phishing
+- Threat Detection
+- Email
+- Anti-Phishing
+- Artificial Intelligence
+- Threat Intelligence
+apis:
+- aid: ocean-security:ocean-security-metrics-api
+  name: Ocean Security Metrics API
+  description: Security metrics and analytics endpoints
+  humanURL: https://docs.ocean.security/api-reference/introduction
+  baseURL: https://api.ocean.security
+  tags:
+  - Metrics
+  properties:
+  - type: OpenAPI
+    url: openapi/ocean-security-metrics-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ocean.security/api-reference/introduction
+  - type: Authentication
+    url: authentication/ocean-security-authentication.yml
+  - type: ErrorCatalog
+    url: errors/ocean-security-problem-types.yml
+  - type: Conventions
+    url: conventions/ocean-security-conventions.yml
+  - type: DataModel
+    url: data-model/ocean-security-data-model.yml
+  - type: Conformance
+    url: conformance/ocean-security-conformance.yml
+- aid: ocean-security:ocean-security-settings-api
+  name: Ocean Security Settings API
+  description: Manage tenant allow/deny list entries
+  humanURL: https://docs.ocean.security/api-reference/introduction
+  baseURL: https://api.ocean.security
+  tags:
+  - Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ocean-security-settings-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ocean.security/api-reference/introduction
+  - type: Authentication
+    url: authentication/ocean-security-authentication.yml
+  - type: ErrorCatalog
+    url: errors/ocean-security-problem-types.yml
+  - type: Conventions
+    url: conventions/ocean-security-conventions.yml
+  - type: DataModel
+    url: data-model/ocean-security-data-model.yml
+  - type: Conformance
+    url: conformance/ocean-security-conformance.yml
+- aid: ocean-security:ocean-security-sonar-api
+  name: Ocean Security Sonar API
+  description: Phishing report (SONAR) management and response analytics
+  humanURL: https://docs.ocean.security/api-reference/introduction
+  baseURL: https://api.ocean.security
+  tags:
+  - Sonar
+  properties:
+  - type: OpenAPI
+    url: openapi/ocean-security-sonar-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ocean.security/api-reference/introduction
+  - type: Authentication
+    url: authentication/ocean-security-authentication.yml
+  - type: ErrorCatalog
+    url: errors/ocean-security-problem-types.yml
+  - type: Conventions
+    url: conventions/ocean-security-conventions.yml
+  - type: DataModel
+    url: data-model/ocean-security-data-model.yml
+  - type: Conformance
+    url: conformance/ocean-security-conformance.yml
+- aid: ocean-security:ocean-security-threats-api
+  name: Ocean Security Threats API
+  description: Operations for retrieving threat information
+  humanURL: https://docs.ocean.security/api-reference/introduction
+  baseURL: https://api.ocean.security
+  tags:
+  - Threats
+  properties:
+  - type: OpenAPI
+    url: openapi/ocean-security-threats-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ocean.security/api-reference/introduction
+  - type: Authentication
+    url: authentication/ocean-security-authentication.yml
+  - type: ErrorCatalog
+    url: errors/ocean-security-problem-types.yml
+  - type: Conventions
+    url: conventions/ocean-security-conventions.yml
+  - type: DataModel
+    url: data-model/ocean-security-data-model.yml
+  - type: Conformance
+    url: conformance/ocean-security-conformance.yml
+common:
+- type: AgenticAccess
+  url: agentic-access/ocean-security-agentic-access.yml
+- type: DeveloperPortal
+  url: https://docs.ocean.security/
+- type: Documentation
+  url: https://docs.ocean.security/api-reference/introduction
+- type: APIReference
+  url: https://docs.ocean.security/api-reference/introduction
+- type: GettingStarted
+  url: https://docs.ocean.security/documentation/getting-started
+- type: Website
+  url: https://ocean.security
+- type: Blog
+  url: https://ocean.security/resources/blog
+- type: TrustCenter
+  url: https://trust.ocean.security/
+- type: TermsOfService
+  url: https://ocean.security/legal/terms-of-use
+- type: PrivacyPolicy
+  url: https://ocean.security/legal/privacy-policy
+- type: SignUp
+  url: https://ocean.security/demo
+- type: LLMsTxt
+  url: llms/ocean-security-llms.txt
+- type: Authentication
+  url: authentication/ocean-security-authentication.yml
+- type: DomainSecurity
+  url: security/ocean-security-domain-security.yml
+- type: Conventions
+  url: conventions/ocean-security-conventions.yml
+- type: Lifecycle
+  url: lifecycle/ocean-security-lifecycle.yml
+- type: WellKnown
+  url: well-known/ocean-security-well-known.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 18
+  pass: local-v1

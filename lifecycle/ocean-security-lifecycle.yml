@@ -1,0 +1,21 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/ocean-security-openapi.yml + https://docs.ocean.security/api-reference/introduction
+versioning:
+  scheme: uri-path
+  current: v1
+  evidence: All endpoints are served under the /api/v1/ path prefix.
+  docs: https://docs.ocean.security/api-reference/introduction
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No published deprecation policy or RFC 8594 Sunset/Deprecation header support found.
+sla:
+  url: null
+  note: Docs state requests are rate limited; no published SLA/uptime target.
+status_page: null
+deprecated_operations: []
+notes: >-
+  Ocean Security publishes a single stable v1 REST API. No dated changelog, status page,
+  deprecation policy, or SLA page was found on the docs or website as of the enrichment date;
+  these are recorded as absent rather than fabricated.

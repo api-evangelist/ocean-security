@@ -1,0 +1,52 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  openapi/ocean-security-openapi.yml + https://docs.ocean.security/api-reference/introduction
+authentication:
+  style: api-key
+  header: X-Api-Key
+  transport: header-only
+  ref: authentication/ocean-security-authentication.yml
+  note: Static per-tenant API key; keys must never be exposed in client-side code or public repos.
+base_url: https://api.ocean.security
+version_prefix: /api/v1
+response_envelope:
+  success: '{"status": <int>, "results": <object>}'
+  paginated: '{"status": <int>, "pagination": {"page", "page_size", "total"}, "results": {"items": [...]}}'
+  error: '{"error": "<message>"}'
+  ref: errors/ocean-security-problem-types.yml
+pagination:
+  style: page-number
+  request_params:
+    page: 1-based page index (default 1)
+    page_size: items per page (default 50, max 200 on settings; max 100 elsewhere)
+  response_fields: [page, page_size, total]
+  note: >-
+    Time-windowed list endpoints (threats, phishing-reports) use a minutes_ago query param instead
+    of page_size to bound the window; metrics endpoints use days_ago.
+time_windowing:
+  params:
+    minutes_ago: look-back window in minutes (threats default 7d, sonar default 30d)
+    days_ago: look-back window in days (metrics default 30d)
+idempotency:
+  supported: false
+  note: >-
+    No Idempotency-Key header or idempotent-write contract is documented. Creating a duplicate
+    allow/deny entry returns HTTP 409 rather than being idempotently de-duplicated.
+rate_limiting:
+  supported: true
+  signal: not-documented
+  note: Requests are rate limited for fair usage; contact support for higher limits. No documented
+    rate-limit response headers.
+request_tracing:
+  supported: unknown
+  note: No documented request-id / correlation header.
+field_conventions:
+  ids: string identifiers (threat id, phishing report id, allow/deny entry id)
+  timestamps: RFC 3339 / ISO 8601 date-time (e.g. detection_time, remediation_time, created_at)
+  message_correlation: Internet Message ID used to correlate threats and phishing reports to emails
+cross_links:
+  errors: errors/ocean-security-problem-types.yml
+  authentication: authentication/ocean-security-authentication.yml
+  lifecycle: lifecycle/ocean-security-lifecycle.yml
+  data_model: data-model/ocean-security-data-model.yml

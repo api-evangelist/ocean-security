@@ -1,0 +1,24 @@
+generated: '2026-07-20'
+method: searched
+source: live probes of /.well-known/ on Ocean Security hosts
+hosts:
+- host: https://api.ocean.security
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+- host: https://ocean.security
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+notes: >-
+  No /.well-known/ discovery documents are published on the API or website hosts as of the probe
+  date. Absence is recorded as valid data; the API authenticates with a static X-Api-Key header
+  (no OAuth/OIDC authorization server), so OIDC/OAuth discovery documents are not expected.

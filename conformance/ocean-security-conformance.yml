@@ -1,0 +1,30 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/ocean-security-openapi.yml
+standards:
+- id: oauth2
+  conforms: false
+  evidence: API authenticates with a static X-Api-Key header; no oauth2 securityScheme.
+- id: openid-connect
+  conforms: false
+- id: apikey-auth
+  conforms: true
+  evidence: securitySchemes.ApiKeyAuth (type apiKey, in header, name X-Api-Key), applied globally.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors return a simple JSON object {"error": string} with application/json, not
+    application/problem+json per RFC 9457.
+- id: pagination
+  conforms: true
+  evidence: >-
+    List endpoints return a common.PaginationParams envelope (page, page_size, total) and accept
+    page / page_size query parameters.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header or idempotent-write contract is documented.
+- id: json-api
+  conforms: false
+- id: rest
+  conforms: true
+  evidence: Resource-oriented HTTP with GET/POST/PATCH/DELETE and consistent JSON envelope.
