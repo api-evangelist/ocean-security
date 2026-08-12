@@ -136,6 +136,12 @@ apis:
   - type: Conformance
     url: conformance/ocean-security-conformance.yml
 common:
+- type: AgentSkill
+  url: skills/ocean-security-investigate-phishing-reports.md
+- type: MCPServer
+  url: mcp/ocean-security-mcp.yml
+- type: Overlay
+  url: overlays/ocean-security-openapi-overlay.yaml
 - type: AgenticAccess
   url: agentic-access/ocean-security-agentic-access.yml
 - type: DeveloperPortal
