@@ -1,0 +1,144 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ocean Security Metrics Settings API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Api-Key",
+      "value": "{{X-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Settings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List allow/deny list entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/settings/allow_deny_entries",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "list",
+                "value": "",
+                "type": "query",
+                "description": "Filter entries by list: allow or deny"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page index (default 1)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Page size (default 50, max 200)"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Substring match on identifier value"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of allow/deny entries for the caller's tenant, filtered by `list` (allow|deny)."
+        },
+        {
+          "info": {
+            "name": "Create an allow/deny list entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ocean.security/api/v1/settings/allow_deny_entries",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new entry (domain, IP, or email address) to the tenant's allow or deny list. The acting api key is recorded in the audit log."
+        },
+        {
+          "info": {
+            "name": "Update an allow/deny list entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.ocean.security/api/v1/settings/allow_deny_entries/:id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Allow/deny entry id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Patches a tenant allow/deny entry. Only `list`, `verdict_scope`, and `comment` are mutable. Omitted fields are left unchanged."
+        },
+        {
+          "info": {
+            "name": "Delete an allow/deny list entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ocean.security/api/v1/settings/allow_deny_entries/:id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Allow/deny entry id"
+              }
+            ]
+          },
+          "docs": "Removes a tenant allow/deny entry by id. The entry must belong to the caller's tenant."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,166 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ocean Security Metrics Sonar API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Api-Key",
+      "value": "{{X-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sonar",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get aggregated total phishing reports by verdict",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/sonar/phishing-reports/aggs/verdicts",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Returns the total count of phishing reports grouped by verdict"
+        },
+        {
+          "info": {
+            "name": "Get Mean Time To Resolution for phishing reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/sonar/phishing-reports/aggs/mttr",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Returns the average time in seconds to analyze phishing reports"
+        },
+        {
+          "info": {
+            "name": "Get phishing report by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/sonar/phishing-reports/:id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the phishing report to retrieve"
+              }
+            ]
+          },
+          "docs": "Retrieves the detailed information for a specific phishing report identified by its unique ID"
+        },
+        {
+          "info": {
+            "name": "Get phishing reports by original email internet message ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/sonar/phishing-reports/by_original_email_internet_message_id/:internet_message_id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "internet_message_id",
+                "value": "",
+                "type": "path",
+                "description": "Internet Message ID of the original reported email"
+              }
+            ]
+          },
+          "docs": "Retrieves phishing reports for the given internet message ID of the original reported email (the email that was reported as phishing). Returns an array, since multiple users may report the same original email."
+        },
+        {
+          "info": {
+            "name": "Get phishing reports by report internet message ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/sonar/phishing-reports/by_report_internet_message_id/:internet_message_id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "internet_message_id",
+                "value": "",
+                "type": "path",
+                "description": "Internet Message ID of the phishing report email"
+              }
+            ]
+          },
+          "docs": "Retrieves phishing reports for the given internet message ID of the phishing report email itself (the message the reporting user sent)."
+        },
+        {
+          "info": {
+            "name": "List phishing reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/sonar/phishing-reports",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "minutes_ago",
+                "value": "",
+                "type": "query",
+                "description": "Number of minutes to look back (default 30 * 24 * 60 = 30 days)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination (default 1)"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of phishing reports from SONAR"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

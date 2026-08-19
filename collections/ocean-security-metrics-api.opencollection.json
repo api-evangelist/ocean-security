@@ -1,0 +1,205 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ocean Security Metrics API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Api-Key",
+      "value": "{{X-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Metrics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get hours saved metric",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/metrics/hours_saved",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "days_ago",
+                "value": "",
+                "type": "query",
+                "description": "Number of days to look back (default 30)"
+              }
+            ]
+          },
+          "docs": "Calculates the estimated hours saved based on prevented threats within the specified time period."
+        },
+        {
+          "info": {
+            "name": "Get prevented financial loss metric (USD)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/metrics/prevented_loss",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "days_ago",
+                "value": "",
+                "type": "query",
+                "description": "Number of days to look back (default 30)"
+              }
+            ]
+          },
+          "docs": "Calculates the total estimated financial loss prevented (in USD) based on threats within the specified time period."
+        },
+        {
+          "info": {
+            "name": "Get protected inboxes count",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/metrics/protected_inboxes",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieves the count of unique protected inboxes that received mail within the specified time period."
+        },
+        {
+          "info": {
+            "name": "Get threats over time metric",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/metrics/threats_over_time",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "days_ago",
+                "value": "",
+                "type": "query",
+                "description": "Number of days to look back (default 7)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination (default 1)"
+              }
+            ]
+          },
+          "docs": "Returns the count of threats grouped by day for the specified time period."
+        },
+        {
+          "info": {
+            "name": "Get top highlighted threats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/metrics/highlighted_threats",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "days_ago",
+                "value": "",
+                "type": "query",
+                "description": "Number of days to look back (default 7)"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of the top 5 highlighted threats within the specified time period."
+        },
+        {
+          "info": {
+            "name": "Get top targeted entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/metrics/top_targeted_entities",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "days_ago",
+                "value": "",
+                "type": "query",
+                "description": "Number of days to look back (default 7)"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of entity to query ('user' or 'group', default 'user')"
+              }
+            ]
+          },
+          "docs": "Returns a list of the top 5 targeted entities (users or groups) based on threat count within the specified time period."
+        },
+        {
+          "info": {
+            "name": "Get top threat types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocean.security/api/v1/metrics/top_threat_types",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "days_ago",
+                "value": "",
+                "type": "query",
+                "description": "Number of days to look back (default 7)"
+              }
+            ]
+          },
+          "docs": "Returns a list of the top 5 threat types and their counts within the specified time period."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

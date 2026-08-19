@@ -2,10 +2,9 @@ generated: '2026-07-20'
 method: derived
 status: candidate
 source: openapi/ocean-security-openapi.yml
-note: >-
-  No official hosted/remote MCP server was found for Ocean Security. This is a candidate tool
-  surface derived one-to-one from the published OpenAPI operations, provided as a starting point
-  for exposing the Ocean Security API to AI agents. Auth is a static X-Api-Key header.
+note: No official hosted/remote MCP server was found for Ocean Security. This is a candidate tool surface
+  derived one-to-one from the published OpenAPI operations, provided as a starting point for exposing
+  the Ocean Security API to AI agents. Auth is a static X-Api-Key header.
 server:
   name: ocean-security
   transport: http
@@ -71,3 +70,9 @@ tools:
 - name: get_top_threat_types
   description: Top 5 threat types and their counts.
   source_operation: openapi/ocean-security-openapi.yml#getTopThreatTypes
+deployment:
+  mode: none
+  verified: derived
+  tools: 20
+  checked: '2026-08-12'
+  source: catalog MCP census
