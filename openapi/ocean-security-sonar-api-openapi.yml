@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   contact: {}
-  title: Ocean Security Metrics Sonar API
+  title: Ocean Security Sonar API
   version: 1.0.0
   description: Ocean Security API for threat detection and security metrics
 servers:
@@ -293,6 +293,98 @@ components:
         analysis_time:
           type: integer
       type: object
+    common.PaginationParams:
+      properties:
+        page:
+          description: Current page number (1-based)
+          type: integer
+        page_size:
+          description: Number of items on this page (max 100)
+          type: integer
+        total:
+          description: Total number of items
+          type: integer
+      type: object
+    verdict.Verdict:
+      enum:
+      - unknown
+      - spam
+      - malicious
+      - safe
+      - allowed
+      - denied
+      - simulation
+      - graymail
+      - no_analysis
+      type: string
+      x-enum-varnames:
+      - Unknown
+      - Spam
+      - Malicious
+      - Safe
+      - Allowed
+      - Denied
+      - Simulation
+      - Graymail
+      - NoAnalysis
+    ocean_api_common.BaseResponse-controllers_sonar_PhishingReportDetails:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_sonar.PhishingReportDetails'
+        status:
+          type: integer
+      type: object
+    controllers_sonar.AggregatedTotalReportsResponse:
+      properties:
+        total_reports:
+          additionalProperties:
+            type: integer
+          type: object
+      type: object
+    ocean_api_common.BaseResponse-array_controllers_sonar_PhishingReportItem:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/controllers_sonar.PhishingReportItem'
+          type: array
+        status:
+          type: integer
+      type: object
+    ocean_api_common.BaseResponse-controllers_sonar_MTTRResponse:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_sonar.MTTRResponse'
+        status:
+          type: integer
+      type: object
+    controllers_sonar.PhishingReportItem:
+      properties:
+        id:
+          type: string
+        original_email_internet_message_id:
+          description: Internet message ID of the original email that was reported as phishing.
+          type: string
+        report_internet_message_id:
+          description: Internet message ID of the phishing report email itself (the message the reporting user sent).
+          type: string
+        reasoning:
+          type: string
+        report_date:
+          type: string
+        reporter:
+          type: string
+        sender:
+          type: string
+        subject:
+          type: string
+        verdict:
+          $ref: '#/components/schemas/verdict.Verdict'
+      type: object
+    types.ErrorResponse:
+      properties:
+        error:
+          type: string
+      type: object
     controllers_sonar.PhishingReportDetails:
       properties:
         bcc:
@@ -326,100 +418,6 @@ components:
         verdict:
           $ref: '#/components/schemas/verdict.Verdict'
       type: object
-    controllers_sonar.AggregatedTotalReportsResponse:
-      properties:
-        total_reports:
-          additionalProperties:
-            type: integer
-          type: object
-      type: object
-    ocean_api_common.BaseResponse-controllers_sonar_PhishingReportDetails:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_sonar.PhishingReportDetails'
-        status:
-          type: integer
-      type: object
-    verdict.Verdict:
-      enum:
-      - unknown
-      - spam
-      - malicious
-      - safe
-      - allowed
-      - denied
-      - simulation
-      - graymail
-      - no_analysis
-      type: string
-      x-enum-varnames:
-      - Unknown
-      - Spam
-      - Malicious
-      - Safe
-      - Allowed
-      - Denied
-      - Simulation
-      - Graymail
-      - NoAnalysis
-    ocean_api_common.BaseResponse-controllers_sonar_AggregatedTotalReportsResponse:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_sonar.AggregatedTotalReportsResponse'
-        status:
-          type: integer
-      type: object
-    controllers_sonar.phishingReportsResult:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/controllers_sonar.PhishingReportItem'
-          type: array
-      type: object
-    types.ErrorResponse:
-      properties:
-        error:
-          type: string
-      type: object
-    ocean_api_common.BaseResponse-array_controllers_sonar_PhishingReportItem:
-      properties:
-        results:
-          items:
-            $ref: '#/components/schemas/controllers_sonar.PhishingReportItem'
-          type: array
-        status:
-          type: integer
-      type: object
-    controllers_sonar.PhishingReportItem:
-      properties:
-        id:
-          type: string
-        original_email_internet_message_id:
-          description: Internet message ID of the original email that was reported as phishing.
-          type: string
-        report_internet_message_id:
-          description: Internet message ID of the phishing report email itself (the message the reporting user sent).
-          type: string
-        reasoning:
-          type: string
-        report_date:
-          type: string
-        reporter:
-          type: string
-        sender:
-          type: string
-        subject:
-          type: string
-        verdict:
-          $ref: '#/components/schemas/verdict.Verdict'
-      type: object
-    ocean_api_common.BaseResponse-controllers_sonar_MTTRResponse:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_sonar.MTTRResponse'
-        status:
-          type: integer
-      type: object
     common.PaginatedResponse:
       properties:
         pagination:
@@ -432,16 +430,18 @@ components:
           description: HTTP status code
           type: integer
       type: object
-    common.PaginationParams:
+    controllers_sonar.phishingReportsResult:
       properties:
-        page:
-          description: Current page number (1-based)
-          type: integer
-        page_size:
-          description: Number of items on this page (max 100)
-          type: integer
-        total:
-          description: Total number of items
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_sonar.PhishingReportItem'
+          type: array
+      type: object
+    ocean_api_common.BaseResponse-controllers_sonar_AggregatedTotalReportsResponse:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_sonar.AggregatedTotalReportsResponse'
+        status:
           type: integer
       type: object
   securitySchemes:

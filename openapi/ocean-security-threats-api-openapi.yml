@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   contact: {}
-  title: Ocean Security Metrics Threats API
+  title: Ocean Security Threats API
   version: 1.0.0
   description: Ocean Security API for threat detection and security metrics
 servers:
@@ -171,12 +171,34 @@ paths:
       operationId: listRecentThreats
 components:
   schemas:
-    ocean_api_common.BaseResponse-array_controllers_threats_ThreatItem:
+    common.PaginationParams:
       properties:
-        results:
+        page:
+          description: Current page number (1-based)
+          type: integer
+        page_size:
+          description: Number of items on this page (max 100)
+          type: integer
+        total:
+          description: Total number of items
+          type: integer
+      type: object
+    controllers_threats.threatsResult:
+      properties:
+        items:
           items:
             $ref: '#/components/schemas/controllers_threats.ThreatItem'
           type: array
+      type: object
+    types.ErrorResponse:
+      properties:
+        error:
+          type: string
+      type: object
+    ocean_api_common.BaseResponse-controllers_threats_ThreatItem:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_threats.ThreatItem'
         status:
           type: integer
       type: object
@@ -215,17 +237,14 @@ components:
           format: date-time
           type: string
       type: object
-    types.ErrorResponse:
+    ocean_api_common.BaseResponse-array_controllers_threats_ThreatItem:
       properties:
-        error:
-          type: string
-      type: object
-    controllers_threats.threatsResult:
-      properties:
-        items:
+        results:
           items:
             $ref: '#/components/schemas/controllers_threats.ThreatItem'
           type: array
+        status:
+          type: integer
       type: object
     common.PaginatedResponse:
       properties:
@@ -243,25 +262,6 @@ components:
       properties:
         indicator_type:
           type: string
-      type: object
-    common.PaginationParams:
-      properties:
-        page:
-          description: Current page number (1-based)
-          type: integer
-        page_size:
-          description: Number of items on this page (max 100)
-          type: integer
-        total:
-          description: Total number of items
-          type: integer
-      type: object
-    ocean_api_common.BaseResponse-controllers_threats_ThreatItem:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_threats.ThreatItem'
-        status:
-          type: integer
       type: object
   securitySchemes:
     ApiKeyAuth:
