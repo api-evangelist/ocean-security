@@ -171,17 +171,22 @@ paths:
       operationId: listRecentThreats
 components:
   schemas:
-    common.PaginationParams:
+    common.PaginatedResponse:
       properties:
-        page:
-          description: Current page number (1-based)
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/common.PaginationParams'
+          description: Pagination information
+        results:
+          description: The actual data
+        status:
+          description: HTTP status code
           type: integer
-        page_size:
-          description: Number of items on this page (max 100)
-          type: integer
-        total:
-          description: Total number of items
-          type: integer
+      type: object
+    types.ErrorResponse:
+      properties:
+        error:
+          type: string
       type: object
     controllers_threats.threatsResult:
       properties:
@@ -190,17 +195,17 @@ components:
             $ref: '#/components/schemas/controllers_threats.ThreatItem'
           type: array
       type: object
-    types.ErrorResponse:
-      properties:
-        error:
-          type: string
-      type: object
     ocean_api_common.BaseResponse-controllers_threats_ThreatItem:
       properties:
         results:
           $ref: '#/components/schemas/controllers_threats.ThreatItem'
         status:
           type: integer
+      type: object
+    controllers_threats.ThreatIndicator:
+      properties:
+        indicator_type:
+          type: string
       type: object
     controllers_threats.ThreatItem:
       properties:
@@ -246,22 +251,17 @@ components:
         status:
           type: integer
       type: object
-    common.PaginatedResponse:
+    common.PaginationParams:
       properties:
-        pagination:
-          allOf:
-          - $ref: '#/components/schemas/common.PaginationParams'
-          description: Pagination information
-        results:
-          description: The actual data
-        status:
-          description: HTTP status code
+        page:
+          description: Current page number (1-based)
           type: integer
-      type: object
-    controllers_threats.ThreatIndicator:
-      properties:
-        indicator_type:
-          type: string
+        page_size:
+          description: Number of items on this page (max 100)
+          type: integer
+        total:
+          description: Total number of items
+          type: integer
       type: object
   securitySchemes:
     ApiKeyAuth:

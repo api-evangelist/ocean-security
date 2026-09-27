@@ -234,23 +234,6 @@ paths:
       operationId: updateAllowDenyEntry
 components:
   schemas:
-    ocean_api_common.BaseResponse-controllers_settings_allow_deny_ListAllowDenyEntriesResult:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_settings_allow_deny.ListAllowDenyEntriesResult'
-        status:
-          type: integer
-      type: object
-    controllers_settings_allow_deny.EntryType:
-      enum:
-      - domain
-      - ip
-      - email_address
-      type: string
-      x-enum-varnames:
-      - EntryTypeDomain
-      - EntryTypeIP
-      - EntryTypeEmail
     controllers_settings_allow_deny.CreateAllowDenyEntryRequest:
       properties:
         comment:
@@ -268,37 +251,47 @@ components:
       - list
       - value
       type: object
-    ocean_api_common.BaseResponse-controllers_settings_allow_deny_AllowDenyEntry:
+    controllers_settings_allow_deny.Scope:
+      enum:
+      - global
+      - graymail
+      type: string
+      x-enum-varnames:
+      - ScopeGlobal
+      - ScopeGraymail
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_DeleteAllowDenyEntryResult:
       properties:
         results:
-          $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
+          $ref: '#/components/schemas/controllers_settings_allow_deny.DeleteAllowDenyEntryResult'
         status:
           type: integer
       type: object
-    controllers_settings_allow_deny.ListKind:
-      enum:
-      - allow
-      - deny
-      type: string
-      x-enum-varnames:
-      - ListAllow
-      - ListDeny
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_ListAllowDenyEntriesResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListAllowDenyEntriesResult'
+        status:
+          type: integer
+      type: object
+    controllers_settings_allow_deny.PatchAllowDenyEntryRequest:
+      properties:
+        comment:
+          type: string
+        list:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListKind'
+        verdict_scope:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
+      type: object
     types.ErrorResponse:
       properties:
         error:
           type: string
       type: object
-    controllers_settings_allow_deny.ListAllowDenyEntriesResult:
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_AllowDenyEntry:
       properties:
-        items:
-          items:
-            $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
-          type: array
-        page:
-          type: integer
-        page_size:
-          type: integer
-        total:
+        results:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
+        status:
           type: integer
       type: object
     controllers_settings_allow_deny.DeleteAllowDenyEntryResult:
@@ -312,21 +305,24 @@ components:
         id:
           type: string
       type: object
-    ocean_api_common.BaseResponse-controllers_settings_allow_deny_DeleteAllowDenyEntryResult:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_settings_allow_deny.DeleteAllowDenyEntryResult'
-        status:
-          type: integer
-      type: object
-    controllers_settings_allow_deny.Scope:
+    controllers_settings_allow_deny.ListKind:
       enum:
-      - global
-      - graymail
+      - allow
+      - deny
       type: string
       x-enum-varnames:
-      - ScopeGlobal
-      - ScopeGraymail
+      - ListAllow
+      - ListDeny
+    controllers_settings_allow_deny.EntryType:
+      enum:
+      - domain
+      - ip
+      - email_address
+      type: string
+      x-enum-varnames:
+      - EntryTypeDomain
+      - EntryTypeIP
+      - EntryTypeEmail
     controllers_settings_allow_deny.AllowDenyEntry:
       properties:
         comment:
@@ -346,14 +342,18 @@ components:
         verdict_scope:
           $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
       type: object
-    controllers_settings_allow_deny.PatchAllowDenyEntryRequest:
+    controllers_settings_allow_deny.ListAllowDenyEntriesResult:
       properties:
-        comment:
-          type: string
-        list:
-          $ref: '#/components/schemas/controllers_settings_allow_deny.ListKind'
-        verdict_scope:
-          $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
+          type: array
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
       type: object
   securitySchemes:
     ApiKeyAuth:
