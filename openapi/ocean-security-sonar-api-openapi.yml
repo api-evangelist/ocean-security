@@ -288,12 +288,14 @@ paths:
       operationId: listPhishingReports
 components:
   schemas:
-    controllers_sonar.phishingReportsResult:
+    ocean_api_common.BaseResponse-array_controllers_sonar_PhishingReportItem:
       properties:
-        items:
+        results:
           items:
             $ref: '#/components/schemas/controllers_sonar.PhishingReportItem'
           type: array
+        status:
+          type: integer
       type: object
     verdict.Verdict:
       enum:
@@ -317,25 +319,6 @@ components:
       - Simulation
       - Graymail
       - NoAnalysis
-    common.PaginatedResponse:
-      properties:
-        pagination:
-          allOf:
-          - $ref: '#/components/schemas/common.PaginationParams'
-          description: Pagination information
-        results:
-          description: The actual data
-        status:
-          description: HTTP status code
-          type: integer
-      type: object
-    ocean_api_common.BaseResponse-controllers_sonar_AggregatedTotalReportsResponse:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_sonar.AggregatedTotalReportsResponse'
-        status:
-          type: integer
-      type: object
     types.ErrorResponse:
       properties:
         error:
@@ -348,14 +331,40 @@ components:
         status:
           type: integer
       type: object
-    ocean_api_common.BaseResponse-array_controllers_sonar_PhishingReportItem:
+    controllers_sonar.MTTRResponse:
+      properties:
+        analysis_time:
+          type: integer
+      type: object
+    ocean_api_common.BaseResponse-controllers_sonar_AggregatedTotalReportsResponse:
       properties:
         results:
-          items:
-            $ref: '#/components/schemas/controllers_sonar.PhishingReportItem'
-          type: array
+          $ref: '#/components/schemas/controllers_sonar.AggregatedTotalReportsResponse'
         status:
           type: integer
+      type: object
+    controllers_sonar.PhishingReportItem:
+      properties:
+        id:
+          type: string
+        original_email_internet_message_id:
+          description: Internet message ID of the original email that was reported as phishing.
+          type: string
+        report_internet_message_id:
+          description: Internet message ID of the phishing report email itself (the message the reporting user sent).
+          type: string
+        reasoning:
+          type: string
+        report_date:
+          type: string
+        reporter:
+          type: string
+        sender:
+          type: string
+        subject:
+          type: string
+        verdict:
+          $ref: '#/components/schemas/verdict.Verdict'
       type: object
     ocean_api_common.BaseResponse-controllers_sonar_PhishingReportDetails:
       properties:
@@ -364,9 +373,30 @@ components:
         status:
           type: integer
       type: object
-    controllers_sonar.MTTRResponse:
+    controllers_sonar.phishingReportsResult:
       properties:
-        analysis_time:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_sonar.PhishingReportItem'
+          type: array
+      type: object
+    controllers_sonar.AggregatedTotalReportsResponse:
+      properties:
+        total_reports:
+          additionalProperties:
+            type: integer
+          type: object
+      type: object
+    common.PaginatedResponse:
+      properties:
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/common.PaginationParams'
+          description: Pagination information
+        results:
+          description: The actual data
+        status:
+          description: HTTP status code
           type: integer
       type: object
     controllers_sonar.PhishingReportDetails:
@@ -401,36 +431,6 @@ components:
           type: array
         verdict:
           $ref: '#/components/schemas/verdict.Verdict'
-      type: object
-    controllers_sonar.PhishingReportItem:
-      properties:
-        id:
-          type: string
-        original_email_internet_message_id:
-          description: Internet message ID of the original email that was reported as phishing.
-          type: string
-        report_internet_message_id:
-          description: Internet message ID of the phishing report email itself (the message the reporting user sent).
-          type: string
-        reasoning:
-          type: string
-        report_date:
-          type: string
-        reporter:
-          type: string
-        sender:
-          type: string
-        subject:
-          type: string
-        verdict:
-          $ref: '#/components/schemas/verdict.Verdict'
-      type: object
-    controllers_sonar.AggregatedTotalReportsResponse:
-      properties:
-        total_reports:
-          additionalProperties:
-            type: integer
-          type: object
       type: object
     common.PaginationParams:
       properties:

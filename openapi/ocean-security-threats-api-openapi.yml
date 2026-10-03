@@ -171,41 +171,12 @@ paths:
       operationId: listRecentThreats
 components:
   schemas:
-    common.PaginatedResponse:
-      properties:
-        pagination:
-          allOf:
-          - $ref: '#/components/schemas/common.PaginationParams'
-          description: Pagination information
-        results:
-          description: The actual data
-        status:
-          description: HTTP status code
-          type: integer
-      type: object
-    types.ErrorResponse:
-      properties:
-        error:
-          type: string
-      type: object
-    controllers_threats.threatsResult:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/controllers_threats.ThreatItem'
-          type: array
-      type: object
     ocean_api_common.BaseResponse-controllers_threats_ThreatItem:
       properties:
         results:
           $ref: '#/components/schemas/controllers_threats.ThreatItem'
         status:
           type: integer
-      type: object
-    controllers_threats.ThreatIndicator:
-      properties:
-        indicator_type:
-          type: string
       type: object
     controllers_threats.ThreatItem:
       properties:
@@ -242,6 +213,23 @@ components:
           format: date-time
           type: string
       type: object
+    types.ErrorResponse:
+      properties:
+        error:
+          type: string
+      type: object
+    controllers_threats.ThreatIndicator:
+      properties:
+        indicator_type:
+          type: string
+      type: object
+    controllers_threats.threatsResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_threats.ThreatItem'
+          type: array
+      type: object
     ocean_api_common.BaseResponse-array_controllers_threats_ThreatItem:
       properties:
         results:
@@ -249,6 +237,18 @@ components:
             $ref: '#/components/schemas/controllers_threats.ThreatItem'
           type: array
         status:
+          type: integer
+      type: object
+    common.PaginatedResponse:
+      properties:
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/common.PaginationParams'
+          description: Pagination information
+        results:
+          description: The actual data
+        status:
+          description: HTTP status code
           type: integer
       type: object
     common.PaginationParams:
