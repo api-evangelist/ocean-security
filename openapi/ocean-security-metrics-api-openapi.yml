@@ -327,45 +327,12 @@ paths:
       operationId: getTopThreatTypes
 components:
   schemas:
-    ocean_api_common.BaseResponse-controllers_metrics_highlightedThreatsResult:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_metrics.highlightedThreatsResult'
-        status:
-          type: integer
-      type: object
-    controllers_metrics.TopTargetedEntityRow:
-      properties:
-        count_threats:
-          type: number
-        full_name:
-          type: string
-        job_title:
-          type: string
-      type: object
     controllers_metrics.highlightedThreatsResult:
       properties:
         items:
           items:
             $ref: '#/components/schemas/ocean_api_controllers_threats.ThreatItem'
           type: array
-      type: object
-    controllers_metrics.preventedLossResult:
-      properties:
-        currency:
-          type: string
-        prevented_loss:
-          type: integer
-      type: object
-    controllers_metrics.hoursSavedResult:
-      properties:
-        hours_saved:
-          type: integer
-      type: object
-    controllers_metrics.protectedInboxesResult:
-      properties:
-        protected_inboxes:
-          type: integer
       type: object
     ocean_api_controllers_threats.ThreatItem:
       properties:
@@ -402,11 +369,20 @@ components:
           format: date-time
           type: string
       type: object
-    ocean_api_common.BaseResponse-controllers_metrics_preventedLossResult:
+    controllers_metrics.TopTargetedEntityRow:
       properties:
-        results:
-          $ref: '#/components/schemas/controllers_metrics.preventedLossResult'
-        status:
+        count_threats:
+          type: number
+        full_name:
+          type: string
+        job_title:
+          type: string
+      type: object
+    controllers_metrics.preventedLossResult:
+      properties:
+        currency:
+          type: string
+        prevented_loss:
           type: integer
       type: object
     common.PaginationParams:
@@ -421,22 +397,10 @@ components:
           description: Total number of items
           type: integer
       type: object
-    types.ErrorResponse:
-      properties:
-        error:
-          type: string
-      type: object
-    controllers_metrics.threatsOverTimeResult:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/controllers_metrics.ThreatsOverTimeRow'
-          type: array
-      type: object
-    ocean_api_common.BaseResponse-controllers_metrics_topThreatTypesResult:
+    ocean_api_common.BaseResponse-controllers_metrics_preventedLossResult:
       properties:
         results:
-          $ref: '#/components/schemas/controllers_metrics.topThreatTypesResult'
+          $ref: '#/components/schemas/controllers_metrics.preventedLossResult'
         status:
           type: integer
       type: object
@@ -446,55 +410,6 @@ components:
           $ref: '#/components/schemas/controllers_metrics.topTargetedEntitiesResult'
         status:
           type: integer
-      type: object
-    controllers_metrics.topThreatTypesResult:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/controllers_metrics.TopThreatTypeRow'
-          type: array
-      type: object
-    ocean_api_common.BaseResponse-controllers_metrics_protectedInboxesResult:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_metrics.protectedInboxesResult'
-        status:
-          type: integer
-      type: object
-    ocean_api_controllers_threats.ThreatIndicator:
-      properties:
-        indicator_type:
-          type: string
-      type: object
-    controllers_metrics.ThreatsOverTimeRow:
-      properties:
-        count_threats:
-          type: number
-        date:
-          example: '1970-01-01T00:00:00.000Z'
-          format: date
-          type: string
-      type: object
-    ocean_api_common.BaseResponse-controllers_metrics_hoursSavedResult:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_metrics.hoursSavedResult'
-        status:
-          type: integer
-      type: object
-    controllers_metrics.topTargetedEntitiesResult:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/controllers_metrics.TopTargetedEntityRow'
-          type: array
-      type: object
-    controllers_metrics.TopThreatTypeRow:
-      properties:
-        count_threats:
-          type: number
-        type:
-          type: string
       type: object
     common.PaginatedResponse:
       properties:
@@ -507,6 +422,91 @@ components:
         status:
           description: HTTP status code
           type: integer
+      type: object
+    controllers_metrics.topTargetedEntitiesResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_metrics.TopTargetedEntityRow'
+          type: array
+      type: object
+    ocean_api_common.BaseResponse-controllers_metrics_highlightedThreatsResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_metrics.highlightedThreatsResult'
+        status:
+          type: integer
+      type: object
+    ocean_api_common.BaseResponse-controllers_metrics_topThreatTypesResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_metrics.topThreatTypesResult'
+        status:
+          type: integer
+      type: object
+    ocean_api_common.BaseResponse-controllers_metrics_protectedInboxesResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_metrics.protectedInboxesResult'
+        status:
+          type: integer
+      type: object
+    controllers_metrics.TopThreatTypeRow:
+      properties:
+        count_threats:
+          type: number
+        type:
+          type: string
+      type: object
+    controllers_metrics.threatsOverTimeResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_metrics.ThreatsOverTimeRow'
+          type: array
+      type: object
+    controllers_metrics.ThreatsOverTimeRow:
+      properties:
+        count_threats:
+          type: number
+        date:
+          example: '1970-01-01T00:00:00.000Z'
+          format: date
+          type: string
+      type: object
+    controllers_metrics.protectedInboxesResult:
+      properties:
+        protected_inboxes:
+          type: integer
+      type: object
+    types.ErrorResponse:
+      properties:
+        error:
+          type: string
+      type: object
+    ocean_api_controllers_threats.ThreatIndicator:
+      properties:
+        indicator_type:
+          type: string
+      type: object
+    ocean_api_common.BaseResponse-controllers_metrics_hoursSavedResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_metrics.hoursSavedResult'
+        status:
+          type: integer
+      type: object
+    controllers_metrics.hoursSavedResult:
+      properties:
+        hours_saved:
+          type: integer
+      type: object
+    controllers_metrics.topThreatTypesResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_metrics.TopThreatTypeRow'
+          type: array
       type: object
   securitySchemes:
     ApiKeyAuth:

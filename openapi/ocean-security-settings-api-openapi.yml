@@ -234,13 +234,6 @@ paths:
       operationId: updateAllowDenyEntry
 components:
   schemas:
-    ocean_api_common.BaseResponse-controllers_settings_allow_deny_DeleteAllowDenyEntryResult:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_settings_allow_deny.DeleteAllowDenyEntryResult'
-        status:
-          type: integer
-      type: object
     controllers_settings_allow_deny.ListKind:
       enum:
       - allow
@@ -249,35 +242,6 @@ components:
       x-enum-varnames:
       - ListAllow
       - ListDeny
-    controllers_settings_allow_deny.CreateAllowDenyEntryRequest:
-      properties:
-        comment:
-          type: string
-        entry_type:
-          $ref: '#/components/schemas/controllers_settings_allow_deny.EntryType'
-        list:
-          $ref: '#/components/schemas/controllers_settings_allow_deny.ListKind'
-        value:
-          type: string
-        verdict_scope:
-          $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
-      required:
-      - entry_type
-      - list
-      - value
-      type: object
-    ocean_api_common.BaseResponse-controllers_settings_allow_deny_ListAllowDenyEntriesResult:
-      properties:
-        results:
-          $ref: '#/components/schemas/controllers_settings_allow_deny.ListAllowDenyEntriesResult'
-        status:
-          type: integer
-      type: object
-    types.ErrorResponse:
-      properties:
-        error:
-          type: string
-      type: object
     controllers_settings_allow_deny.Scope:
       enum:
       - global
@@ -286,17 +250,6 @@ components:
       x-enum-varnames:
       - ScopeGlobal
       - ScopeGraymail
-    controllers_settings_allow_deny.DeleteAllowDenyEntryResult:
-      properties:
-        deleted:
-          type: boolean
-        deleted_at:
-          type: string
-        deleted_by:
-          type: string
-        id:
-          type: string
-      type: object
     controllers_settings_allow_deny.AllowDenyEntry:
       properties:
         comment:
@@ -316,6 +269,11 @@ components:
         verdict_scope:
           $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
       type: object
+    types.ErrorResponse:
+      properties:
+        error:
+          type: string
+      type: object
     controllers_settings_allow_deny.EntryType:
       enum:
       - domain
@@ -326,10 +284,58 @@ components:
       - EntryTypeDomain
       - EntryTypeIP
       - EntryTypeEmail
-    ocean_api_common.BaseResponse-controllers_settings_allow_deny_AllowDenyEntry:
+    controllers_settings_allow_deny.ListAllowDenyEntriesResult:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
+          type: array
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
+      type: object
+    controllers_settings_allow_deny.CreateAllowDenyEntryRequest:
+      properties:
+        comment:
+          type: string
+        entry_type:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.EntryType'
+        list:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListKind'
+        value:
+          type: string
+        verdict_scope:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
+      required:
+      - entry_type
+      - list
+      - value
+      type: object
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_DeleteAllowDenyEntryResult:
       properties:
         results:
-          $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
+          $ref: '#/components/schemas/controllers_settings_allow_deny.DeleteAllowDenyEntryResult'
+        status:
+          type: integer
+      type: object
+    controllers_settings_allow_deny.DeleteAllowDenyEntryResult:
+      properties:
+        deleted:
+          type: boolean
+        deleted_at:
+          type: string
+        deleted_by:
+          type: string
+        id:
+          type: string
+      type: object
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_ListAllowDenyEntriesResult:
+      properties:
+        results:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.ListAllowDenyEntriesResult'
         status:
           type: integer
       type: object
@@ -342,17 +348,11 @@ components:
         verdict_scope:
           $ref: '#/components/schemas/controllers_settings_allow_deny.Scope'
       type: object
-    controllers_settings_allow_deny.ListAllowDenyEntriesResult:
+    ocean_api_common.BaseResponse-controllers_settings_allow_deny_AllowDenyEntry:
       properties:
-        items:
-          items:
-            $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
-          type: array
-        page:
-          type: integer
-        page_size:
-          type: integer
-        total:
+        results:
+          $ref: '#/components/schemas/controllers_settings_allow_deny.AllowDenyEntry'
+        status:
           type: integer
       type: object
   securitySchemes:
