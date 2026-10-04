@@ -149,6 +149,9 @@ apis:
   - type: Conformance
     url: conformance/ocean-security-conformance.yml
 common:
+- type: CapabilityMap
+  url: capabilities/ocean-security-capability-edges.yml
+  name: Ocean Security Business Capability Map
 - type: AgentSkill
   url: skills/ocean-security-investigate-phishing-reports.md
 - type: X-MCPServerCandidate

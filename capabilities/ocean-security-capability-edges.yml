@@ -1,0 +1,45 @@
+slug: ocean-security
+provider: Ocean Security
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Threats
+  spec_file: ocean-security-threats-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.9
+  evidence: GET /api/v1/threats listRecentThreats List recent threats; schema controllers_threats.ThreatIndicator
+  reason: Exposes detected email threats and their indicators for retrieval by id or internet message
+    id — core threat detection and response surface of an email security platform.
+- tag: Sonar
+  spec_file: ocean-security-sonar-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.85
+  evidence: GET /api/v1/sonar/phishing-reports listPhishingReports; GET /api/v1/sonar/phishing-reports/aggs/mttr
+    Get Mean Time To Resolution for phishing reports; schema verdict.Verdict
+  reason: 'User-reported phishing triage: report retrieval, verdict aggregation and mean-time-to-resolution
+    — security incident detection and response workflow for email threats.'
+- tag: Metrics
+  spec_file: ocean-security-metrics-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.75
+  evidence: GET /api/v1/metrics/threats_over_time getThreatsOverTime; GET /api/v1/metrics/top_threat_types;
+    schema ocean_api_controllers_threats.ThreatIndicator
+  reason: 'Reporting surface over the email-security detection engine: threat volumes over time, top threat
+    types, top targeted entities, protected inboxes, prevented loss. This is threat detection and response
+    reporting (SOC-style metrics), not generic business KPI reporting.'
