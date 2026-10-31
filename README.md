@@ -64,36 +64,122 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Ocean Security (Ocean) is an AI-native, agentic email security platform that stops targeted,
-AI-powered email attacks — phishing, business email compromise (BEC), impersonation, and financial
-fraud — that surface-level detection tools miss. Its autonomous investigation engine, Ray, reviews
-every inbound email in real time (sender, content, links, technical infrastructure, and business
-context) to decide whether a message can be trusted, and pairs deep investigation with autonomous
-SOC triage and real-time employee inbox guidance. Founded in Israel and backed by Lightspeed
-Venture Partners.
+Ocean Security (Ocean) is an AI-native, agentic email security platform that stops targeted, AI-powered email attacks that surface-level detection tools miss. At its core is Ray, an autonomous investigation engine that reviews every inbound email in real time — checking the sender, content, links, technical infrastructure, and business context to decide whether a message can be trusted — enabling enterprises to stop phishing, business email compromise (BEC), impersonation, and financial fraud. The platform pairs deep email investigation with autonomous SOC triage and real-time employee inbox guidance. Ocean's REST API gives security teams programmatic access to detected threats, phishing reports (SONAR), allow/deny list settings, and ROI/security metrics such as hours saved and financial loss prevented. Founded in Israel and backed by Lightspeed Venture Partners, Ocean protects hundreds of thousands of mailboxes across Global Fortune 500 organizations.
 
-Backed by: lightspeed-venture-partners
+**Areas:** Company · Security · Email Security · Cybersecurity · Phishing · Threat Detection · Email · Anti-Phishing · Artificial Intelligence · Threat Intelligence
 
-## API
+## Ocean Security on APIs.io
 
-Ocean publishes a stable **v1 REST API** for threat detection and security metrics.
+Everything profiled for Ocean Security is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/ocean-security/](https://apis.io/providers/ocean-security/)** — or go straight to one of the APIs or properties below.
 
-- Developer portal / docs: https://docs.ocean.security/
-- API reference: https://docs.ocean.security/api-reference/introduction
-- Base URL: `https://api.ocean.security` (paths under `/api/v1/`)
-- Auth: `X-Api-Key` header (static per-tenant API key)
-- Trust Center: https://trust.ocean.security/
+### APIs (4)
 
-### Resource areas (20 operations)
-- **Threats** — list recent threats, get by ID, get by Internet Message ID.
-- **SONAR** — user-reported phishing: list/get reports, group by Internet Message ID, verdict
-  aggregates, mean time to resolution.
-- **Settings** — tenant allow/deny list entries (create, list, update, delete).
-- **Metrics** — hours saved, financial loss prevented, protected inboxes, threats over time,
-  top threat types / targeted entities / highlighted threats.
+- [Ocean Security Metrics API](https://apis.io/apis/ocean-security/ocean-security-metrics-api/) — Security metrics and analytics endpoints
+- [Ocean Security Settings API](https://apis.io/apis/ocean-security/ocean-security-settings-api/) — Manage tenant allow/deny list entries
+- [Ocean Security Sonar API](https://apis.io/apis/ocean-security/ocean-security-sonar-api/) — Phishing report (SONAR) management and response analytics
+- [Ocean Security Threats API](https://apis.io/apis/ocean-security/ocean-security-threats-api/) — Operations for retrieving threat information
 
-## Enriched artifacts (API Evangelist enrichment pipeline, 2026-07-20)
+### Published properties
 
-Assembled OpenAPI (`openapi/`), plus `authentication/`, `conventions/`, `errors/`, `lifecycle/`,
-`conformance/`, `data-model/`, `agentic-access/`, `mcp/` (candidate), `overlays/`, `well-known/`,
-`security/` (domain security), `llms/`, and four packaged Agent Skills under `skills/`.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [ocean-security](https://apis.io/servers/ocean-security/ocean-security/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Ocean Security Agentic Access](https://apis.io/agentic-access/ocean-security/ocean-security-agentic-access/)
+
+#### Collections (4)
+
+Postman and Open Collection request collections.
+
+- [Ocean Security Metrics API](https://apis.io/collections/ocean-security/open-ocean-security-metrics-api/)
+- [Ocean Security Metrics Settings API](https://apis.io/collections/ocean-security/open-ocean-security-settings-api/)
+- [Ocean Security Metrics Sonar API](https://apis.io/collections/ocean-security/open-ocean-security-sonar-api/)
+- [Ocean Security Metrics Threats API](https://apis.io/collections/ocean-security/open-ocean-security-threats-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Ocean Security Openapi Overlay](https://apis.io/overlays/ocean-security/ocean-security-openapi-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Ocean Security Authentication](https://apis.io/security/ocean-security/ocean-security-authentication/)
+- [Ocean Security Domain Security](https://apis.io/security/ocean-security/ocean-security-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://ocean.security)
+- [Documentation](https://docs.ocean.security/api-reference/introduction)
+- [Getting started](https://docs.ocean.security/documentation/getting-started)
+- [API reference](https://docs.ocean.security/api-reference/introduction)
+- [Sign up](https://ocean.security/demo)
+- [Blog](https://ocean.security/resources/blog)
+- [Trust centre](https://trust.ocean.security/)
+- [Terms of service](https://ocean.security/legal/terms-of-use)
+- [Privacy policy](https://ocean.security/legal/privacy-policy)
+
+## API Evangelist rating
+
+**Kin Score 36.8** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 53.0 |
+| Contract governance | 4.5 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 42.3 |
+| Access clarity | 34.2 |
+
+**Agent readiness 23.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 22.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/ocean-security/](https://apis.io/providers/ocean-security/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Ocean Security: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/ocean-security/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
